@@ -1,0 +1,3 @@
+# Ignoring Auth Tokens
+keys.*
+*/keys.*
