@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import RecordingComponent from './RecordingComponent';
+import ResponseComponent from './ResponseComponent';
 
 function App() {
   // State to store the WebSocket instance
   const [ws, setWs] = useState(null);
   // State to store messages received from the server
   const [message, setMessage] = useState(null);
+
+  const [prompt, setPrompt] = useState(null);
 
   useEffect(() => {
     // Create a new WebSocket connection when the component mounts
@@ -15,6 +18,11 @@ function App() {
     // Event handler for when the WebSocket connection opens
     newWs.onopen = () => {
       console.log('Connected to the server');
+    };
+
+    newWs. onprompt = (event) => {
+      console.log('Prompt from server:', event.data);
+      setPrompt(event.data);
     };
 
     // Event handler for receiving messages from the WebSocket server
@@ -38,13 +46,25 @@ function App() {
     };
   }, []); // Empty dependency array means this effect runs once on mount and never again
 
+  const backgroundStyle = {
+    backgroundColor: `#FFE4E1`,
+  };
+  const headerStyle = {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', // White with transparency
+        padding: '10px 15px', // Space inside the bubble
+        borderRadius: '20px', // Rounded corners
+        maxWidth: '17%', // Maximum width of a bubble
+        margin: '0 auto', // Space around each bubble
+        wordWrap: 'break-word', 
+        textAlign: 'center', 
+  }
+
   return (
-    <div>
-      <h1>React WebSocket Client</h1>
-      {/* Display the message received from the server, if any */}
-      {message && <p>Message: {message}</p>}
-      {/* Pass the WebSocket instance to the RecordingComponent as a prop */}
+    <div style = {backgroundStyle}>
+      <h1 style = {headerStyle}>Andrew's Chat</h1>
+      {/* {message && <p>Message: {message}</p>} */}
       <RecordingComponent ws={ws} />
+      <ResponseComponent prompt = {prompt} message={message}/> {/* Include the ResponseComponent */}
     </div>
   );
 }

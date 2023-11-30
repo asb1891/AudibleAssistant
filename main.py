@@ -9,6 +9,7 @@ from gtts import gTTS
 from openai import OpenAI
 import json
 import threading
+import logging
 
 from keys import OPENAI_AUTH_TOKEN
 
@@ -19,16 +20,18 @@ client = OpenAI(api_key=api_key)
 
 
 async def websocket_handler(websocket, path):
-    origin = websocket.request_headers.get('Origin')
-    if origin is not None and origin_allowed(origin):
-        # If the origin is allowed, proceed with setting up the WebSocket connection
-        app.set_websocket(websocket)
-        async for message in websocket:
-            if message == "start_recording":
-                await app.start_recording()  # Assuming this is an async function
-            # Add more commands as needed
-    else:
-        # If the origin is not allowed, close the connection
+    try:
+        origin = websocket.request_headers.get('Origin')
+        if origin is not None and origin_allowed(origin):
+            app.set_websocket(websocket)
+            async for message in websocket:
+                if message == "start_recording":
+                    await app.start_recording() 
+                # Add more commands as needed
+        else:
+            await websocket.close()
+    except Exception as e:
+        logging.error(f"WebSocket error: {e}")
         await websocket.close()
 
 def origin_allowed(origin):
@@ -74,7 +77,6 @@ class TextToSpeech:
     def __init__(self, lang='en'):
         # Initialize the TextToSpeech with a language setting
         self.lang = lang
-        # self.engine = pyttsx3.init()
 
     def text_to_speech(self, text, file_path):
         # Convert text to speech and save it as an audio file
@@ -104,25 +106,51 @@ class OpenAIChatbot:
     async def get_response(self, message):
         completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
         response_text = completion.choices[0].message.content
+
+        formatted_message = f"PROMPT: {message}\n\nRESPONSE: {response_text}"
+
         if self.websocket:
-            await self.websocket.send(response_text)
-        save_to_json({"prompt": message, "response": response_text}, "response.json")
+            pring("Sending fomratted message:", formatted_message)
+            await self.websocket.send(formatted_message)
+
+        combined_message = {"prompt": message, "response": response_text}
+        save_to_json(combined_message, "response.json")
         return response_text
 
 
-class OpenAIChatbot:
-    def __init__(self, api_key):
-        # Set the API key for OpenAI
-        self.api_key = api_key
+    # async def get_response(self, message):
+    #     completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
+    #     response_text = completion.choices[0].message.content
+    #     if self.websocket:
+    #         await self.websocket.send(response_text)
+    #     save_to_json({"prompt": message, "response": response_text}, "response.json")
+    #     return response_text
+
+
+# class OpenAIChatbot:
+#     def __init__(self, api_key):
+#         # Set the API key for OpenAI
+#         self.api_key = api_key
+
+#     def set_websocket(self, websocket):
+#         self.websocket = websocket
+
+#     def get_response(self, message):
+#         # Get a response from OpenAI's GPT-4 model
+#         completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
+#         response_text = completion.choices[0].message.content
+#         print(response_text)
+#         save_to_json({"prompt": message, "response": response_text}, "response.json")  # Save to JSON file
+#         return response_text  # Return only the response text
         
-    def get_response(self, message):
-        # Get a response from OpenAI's GPT-3 model
-        completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
-        response_text = completion.choices[0].message.content
-        print(completion.choices[0].message.content)
-        save_to_json({"prompt": message, "response": response_text}, "response.json")  # Save to JSON file
-        return response_text
-        return completion.choices[0].message.content
+    # def get_response(self, message):
+    #     # Get a response from OpenAI's GPT-3 model
+    #     completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
+    #     response_text = completion.choices[0].message.content
+    #     print(completion.choices[0].message.content)
+    #     save_to_json({"prompt": message, "response": response_text}, "response.json")  # Save to JSON file
+    #     return response_text, 
+    # # completion.choices[0].message.content
     
 class MainApplication:
     def __init__(self, api_key):
@@ -136,97 +164,78 @@ class MainApplication:
         self.websocket = websocket
         self.chatbot.set_websocket(websocket)
 
-    async def handle_recording_process(self):
-        audio = self.audio_manager.record_audio()
-        said = self.speech_recognition.recognize_speech(audio)
+    async def start_recording(self):
+        try:
+            audio = self.audio_manager.record_audio()
+            said = self.speech_recognition.recognize_speech(audio)
 
-        if said is not None:
-            print("User said:", said)
-            response = await self.chatbot.get_response(said)
-            if response:
-                print("OpenAI responded:", response)
-                self.text_to_speech.text_to_speech(response, "response.mp3")
-                self.audio_manager.play_audio("response.mp3")
-                if self.websocket:
-                    await self.websocket.send(response)
-        else:
-            print("No speech recognized or an error occurred.")
+            if said is not None:
+                logging.info(f"User said: {said}")
+                response = await self.chatbot.get_response(said)
+                if response:
+                    logging.info(f"OpenAI responded: {response}")
+                    self.text_to_speech.text_to_speech(response, "response.mp3")
+                    self.audio_manager.play_audio("response.mp3")
+                    if self.websocket:
+                        await self.websocket.send(response)
+            else:
+                logging.warning("No speech recognized or an error occurred.")
+        except Exception as e:
+            logging.error(f"Error during recording: {e}")
 
-    def run(self):
+    async def run(self):  # Make this an async method
         while True:
             audio = self.audio_manager.record_audio()
             said = self.speech_recognition.recognize_speech(audio)
 
             if said:
-                print(said)
+                logging.info(f"User said: {said}")
                 trigger = "question"
                 if trigger in said:
-                    response = self.chatbot.get_response(said)
+                    response = await self.chatbot.get_response(said)  # Await the async method
                     self.text_to_speech.text_to_speech(response, "response.mp3")
                     self.audio_manager.play_audio("response.mp3")
 
                 if "stop" in said:
                     break
-
-# class MainApplication:
-#     def __init__(self, api_key):
-#         self.audio_manager = AudioManager()
-#         self.speech_recognition = SpeechRecognition()
-#         self.text_to_speech = TextToSpeech()
-#         self.chatbot = OpenAIChatbot(api_key)
-#         self.websocket = None
-
-#     def set_websocket(self, websocket):
-#         self.websocket = websocket
-#         self.chatbot.set_websocket(websocket)
-
-#     async def handle_recording_process(self):
-#         audio = self.audio_manager.record_audio()
-#         said = self.speech_recognition.recognize_speech(audio)
-
-#         if said is not None:
-#             print("User said:", said)
-#             response = await self.chatbot.get_response(said)
-#             if response:
-#                 print("OpenAI responded:", response)
-#                 self.text_to_speech.text_to_speech(response, "response.mp3")
-#                 self.audio_manager.play_audio("response.mp3")
-#                 if self.websocket:
-#                     await self.websocket.send(response)
-#         else:
-#             print("No speech recognized or an error occurred.")
-
-# class MainApplication:
-#     def __init__(self, api_key):
-#         # Initialize all components of the application
-#         self.audio_manager = AudioManager()
-#         self.speech_recognition = SpeechRecognition()
-#         self.text_to_speech = TextToSpeech()
-#         self.chatbot = OpenAIChatbot(api_key)
-
-#     def run(self):
-#         # Main loop of the application
-#         while True:
-#             audio = self.audio_manager.record_audio()
-#             said = self.speech_recognition.recognize_speech(audio)
-
-#             if said:
-#                 print(said)
-#                 # Check for specific keywords in the recognized text
-#                 trigger = "question"
-#                 if trigger in said:
-#                     # Get a response from the chatbot
-#                     response = self.chatbot.get_response(said)
-#                     # Convert the response to speech
-#                     self.text_to_speech.text_to_speech(response, "response.mp3")
-#                     # Play the response
-#                     self.audio_manager.play_audio("response.mp3")
-
-#                 if "stop" in said:
-#                     break  # Exit the loop if 'stop' is said
-
 if __name__ == "__main__":
-    print("Starting the application...")
-    api_key = OPENAI_AUTH_TOKEN # Replace with your actual API key
+    logging.info("Starting the application...")
     app = MainApplication(api_key)
-    app.run()  # Run the main application
+    asyncio.run(app.run())
+    # async def handle_recording_process(self):
+    #     audio = self.audio_manager.record_audio()
+    #     said = self.speech_recognition.recognize_speech(audio)
+
+    #     if said is not None:
+    #         print("User said:", said)
+    #         response = await self.chatbot.get_response(said)
+    #         if response:
+    #             print("OpenAI responded:", response)
+    #             self.text_to_speech.text_to_speech(response, "response.mp3")
+    #             self.audio_manager.play_audio("response.mp3")
+    #             if self.websocket:
+    #                 await self.websocket.send(response)
+    #     else:
+    #         print("No speech recognized or an error occurred.")
+
+    # def run(self):
+    #     while True:
+    #         audio = self.audio_manager.record_audio()
+    #         said = self.speech_recognition.recognize_speech(audio)
+
+    #         if said:
+    #             print(said)
+    #             trigger = "question"
+    #             if trigger in said:
+    #                 response = self.chatbot.get_response(said)
+    #                 self.text_to_speech.text_to_speech(response, "response.mp3")
+    #                 self.audio_manager.play_audio("response.mp3")
+
+    #             if "stop" in said:
+    #                 break
+
+# if __name__ == "__main__":
+#     logging.info("Starting the application...")
+#     api_key = OPENAI_AUTH_TOKEN # Replace with your actual API key
+#     app = MainApplication(api_key)
+#     app.run()  # Run the main application

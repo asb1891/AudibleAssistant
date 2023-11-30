@@ -17,7 +17,7 @@ function RecordingComponent({ ws }) {
     return (
         <div>
             {/* Button that triggers the startRecording function when clicked */}
-            <button onClick={startRecording}>Start Recording</button>
+            <button onClick={startRecording}>Turn on Microphone</button>
         </div>
     );
 }
