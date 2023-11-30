@@ -110,7 +110,7 @@ class OpenAIChatbot:
         formatted_message = f"PROMPT: {message}\n\nRESPONSE: {response_text}"
 
         if self.websocket:
-            pring("Sending fomratted message:", formatted_message)
+            print("Sending formattedd message:", formatted_message)
             await self.websocket.send(formatted_message)
 
         combined_message = {"prompt": message, "response": response_text}
