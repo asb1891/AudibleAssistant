@@ -26,6 +26,7 @@ async def websocket_handler(websocket, path):
             app.set_websocket(websocket)
             async for message in websocket:
                 if message == "start_recording":
+                    print("Starting recording...")
                     await app.start_recording() 
                 # Add more commands as needed
         else:
@@ -51,10 +52,12 @@ threading.Thread(target=start_websocket_server, daemon=True).start()
 class AudioManager:
     def record_audio(self):
         recognizer = sr.Recognizer()
-        with sr.Microphone(device_index=1) as source:
+        with sr.Microphone() as source:
+            print(source)
             # Adjust the recognizer sensitivity to ambient noise
             recognizer.adjust_for_ambient_noise(source, duration=1)
             audio = recognizer.listen(source)
+            print("Listening...")
         return audio
     
     @staticmethod
@@ -67,6 +70,7 @@ class SpeechRecognition:
 
     def recognize_speech(self, audio):
         try:
+            print("Recognizing...")
             text = self.recognizer.recognize_google(audio)
             return text
         except Exception as e:
@@ -107,7 +111,7 @@ class OpenAIChatbot:
         completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
         response_text = completion.choices[0].message.content
 
-        formatted_message = f"PROMPT: {message}\n\nRESPONSE: {response_text}"
+        formatted_message = f"PROMPT: {message}\nRESPONSE: {response_text}"
 
         if self.websocket:
             print("Sending formattedd message:", formatted_message)
@@ -115,7 +119,7 @@ class OpenAIChatbot:
 
         combined_message = {"prompt": message, "response": response_text}
         save_to_json(combined_message, "response.json")
-        return response_text
+        return response_text 
 
 
     # async def get_response(self, message):

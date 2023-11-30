@@ -11,32 +11,31 @@ function App() {
 
   const [prompt, setPrompt] = useState(null);
 
+  const [responseData, setResponseData] = useState([])
+
   useEffect(() => {
     // Create a new WebSocket connection when the component mounts
     const newWs = new WebSocket('ws://localhost:6789');
-
     // Event handler for when the WebSocket connection opens
     newWs.onopen = () => {
       console.log('Connected to the server');
     };
-
     newWs. onprompt = (event) => {
       console.log('Prompt from server:', event.data);
       setPrompt(event.data);
     };
-
     // Event handler for receiving messages from the WebSocket server
     newWs.onmessage = (event) => {
-      console.log('Message from server:', event.data);
+      console.log('App Console Log:', event.data);
+      const [prompt, response] = event.data.split('\n'); // Assuming the format "PROMPT: ... \n RESPONSE: ..."
+        setResponseData(prevData => [...prevData, { prompt, response }]);
       // Update the message state with the received message
       setMessage(event.data);
     };
-
     // Event handler for any WebSocket errors
     newWs.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
-
     // Update the WebSocket state with the new WebSocket instance
     setWs(newWs);
 
@@ -47,7 +46,7 @@ function App() {
   }, []); // Empty dependency array means this effect runs once on mount and never again
 
   const backgroundStyle = {
-    backgroundColor: `#FFE4E1`,
+    backgroundColor: `#FFE4B5`,
   };
   const headerStyle = {
     backgroundColor: 'rgba(255, 255, 255, 0.5)', // White with transparency
@@ -62,9 +61,8 @@ function App() {
   return (
     <div style = {backgroundStyle}>
       <h1 style = {headerStyle}>Andrew's Chat</h1>
-      {/* {message && <p>Message: {message}</p>} */}
       <RecordingComponent ws={ws} />
-      <ResponseComponent prompt = {prompt} message={message}/> {/* Include the ResponseComponent */}
+      <ResponseComponent responseData={responseData} prompt = {prompt} message={message}/> {/* Include the ResponseComponent */}
     </div>
   );
 }

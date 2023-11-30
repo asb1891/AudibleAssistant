@@ -5,6 +5,7 @@ function RecordingComponent({ ws }) {
     const startRecording = () => {
         // Check if the WebSocket instance exists and is in the OPEN state
         if (ws && ws.readyState === WebSocket.OPEN) {
+            
             // Send a message to the WebSocket server to start recording
             ws.send("start_recording");
         } else {
@@ -15,9 +16,18 @@ function RecordingComponent({ ws }) {
 
     // Render the component
     return (
-        <div>
-            {/* Button that triggers the startRecording function when clicked */}
-            <button onClick={startRecording}>Turn on Microphone</button>
+        <div style={{
+            display: 'flex', 
+            justifyContent: 'center', // Centers the button horizontally
+            alignItems: 'center', // Centers the button vertically
+            height: '10vh', // Sets the height of the container
+        }}>
+            <button style={{
+                padding: '10px 20px', // Example padding, adjust as needed
+                // Add any other button styles here
+            }} onClick={startRecording}>
+                Turn on Microphone
+            </button>
         </div>
     );
 }
