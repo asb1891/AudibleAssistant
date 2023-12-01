@@ -58,10 +58,22 @@ function App() {
         textAlign: 'center', 
   }
 
+  const startRecording = () => {
+    // Check if the WebSocket instance exists and is in the OPEN state
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        
+        // Send a message to the WebSocket server to start recording
+        ws.send("start_recording");
+    } else {
+        // Log a message if the WebSocket is not connected
+        console.log("WebSocket is not connected.");
+    }
+};
+
   return (
     <div style = {backgroundStyle}>
       <h1 style = {headerStyle}>Andrew's Chat</h1>
-      <RecordingComponent ws={ws} />
+      <RecordingComponent ws={ws} startRecording={startRecording} />
       <ResponseComponent responseData={responseData} prompt = {prompt} message={message}/> {/* Include the ResponseComponent */}
     </div>
   );
