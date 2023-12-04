@@ -1,3 +1,6 @@
 # Ignoring Auth Tokens
 keys.*
 */keys.*
+
+#ignoring AUTH0 tokens in ENV folder 
+.env

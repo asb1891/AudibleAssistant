@@ -39,7 +39,8 @@ function ResponseComponent({ prompt,  message , responseData }) {
     };
     
 
-    const chatBubbleStyle = {
+    const chatBubbleStyle = { // Size of the tail, adjust as needed
+        position: 'relative',
         backgroundColor: 'rgba(32,178,170, 0.4)', // White with transparency
         padding: '10px 15px', // Space inside the bubble
         borderRadius: '20px', // Rounded corners
