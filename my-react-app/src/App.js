@@ -6,6 +6,8 @@ import LoginComponent from "./LoginComponent";
 import LogoutComponent from "./LogoutComponent";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./index.css";
+// import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 function App() {
   // State to store the WebSocket instance
@@ -75,7 +77,7 @@ function App() {
       ) : (
         <>
           {/* <h1 className="header-style">Andrew's Chat</h1> */}
-          <LogoutComponent />
+          <Header />
           <RecordingComponent ws={ws} startRecording={startRecording} />
           <ResponseComponent
             responseData={responseData}
@@ -86,28 +88,6 @@ function App() {
       )}
     </div>
   );
-
-  // return (
-  //   <div style = {loginStyle}>
-  //     {!isAuthenticated ? (
-  //       // Show login component when not authenticated
-  //       <main className="column">
-  //         <h1 style= {h1Style}>Welcome to Audible Assistant</h1>
-  //         <LoginComponent />
-  //         <h2 style={h2Style}>Clicking the 'Sign In' button will redirect you to a 3rd party authentication system</h2>
-  //       </main>
-  //     ) : (
-  //       // Show main content when authenticated
-  //       <div style={backgroundStyle}>
-  //         {/* <h1 style={headerStyle}>Andrew's Chat</h1> */}
-  //         <LogoutComponent />
-  //         <RecordingComponent ws={ws} startRecording={startRecording} />
-  //         <ResponseComponent responseData={responseData} prompt={prompt} message={message} />
-  //       </div>
-  //     )}
-  //   </div>
-  // );
-  // }
 }
 
 export default App;

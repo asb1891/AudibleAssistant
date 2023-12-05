@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
-import './index.css';
+import "./index.css";
 
 function ResponseComponent({ prompt, message }) {
   const [ws, setWs] = useState(null);
   const [responseData, setResponseData] = useState([]);
 
   useEffect(() => {
-    const newWs = new WebSocket('ws://localhost:6789');
+    const newWs = new WebSocket("ws://localhost:6789");
 
     newWs.onopen = () => {
-        console.log('WebSocket Connected');
-        newWs.send("get_response");
+      console.log("WebSocket Connected");
+      newWs.send("get_response");
     };
 
     newWs.onmessage = (event) => {
-        console.log("Message from server:", event.data);
-        const [prompt, response] = event.data.split('\n'); // Assuming the format "PROMPT: ... \n RESPONSE: ..."
-        setResponseData(prevData => [...prevData, { prompt, response }]);
+      console.log("Message from server:", event.data);
+      const [prompt, response] = event.data.split("\n"); // Assuming the format "PROMPT: ... \n RESPONSE: ..."
+      setResponseData((prevData) => [...prevData, { prompt, response }]);
     };
 
     newWs.onerror = (error) => {
-        console.error('WebSocket error:', error);
+      console.error("WebSocket error:", error);
     };
 
     setWs(newWs);
 
     return () => newWs.close();
-
   }, []);
 
   return (
