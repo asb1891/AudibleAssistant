@@ -12,3 +12,102 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.login-style {
+  background: linear-gradient(0deg, #1E2C3D 0%, #3E364E 100%);
+  margin: 100px auto;
+  max-width: 500px;
+  height: 650px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+  background: #DFDFEF;
+  font-family: 'Helvetica Neue';
+  font-size: 1.5em;
+  color: #414141;
+  line-height: 2em;
+  padding: 10px;
+}
+
+.h1-style {
+  font-size: 30px;
+  font-family: 'Helvetica Neue';
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
+
+.h2-style {
+  font-size: 16px;
+  line-height: 5.5em;
+  letter-spacing: normal;
+  font-family: 'Helvetica Neue';
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
+
+.background-style {
+  background-color: #ffff;
+}
+.container-style {
+  display: flex;
+  justify-content: center; /* Centers the button horizontally */
+  align-items: center;     /* Centers the button vertically */
+  height: auto;            /* Adjust height as needed */
+}
+.chat-box {
+  background: linear-gradient(0deg, #1E2C3D 0%, #3E364E 100%);
+  margin: 100px auto;
+  max-width: 500px;
+  height: 650px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+  background: #DFDFEF;
+  font-family: 'Helvetica Neue';
+  font-size: 1.5em;
+  color: #414141;
+  line-height: 2em;
+  padding: 10px;
+}
+
+.chat-bubble {
+  position: relative;
+  background-color: rgba(32,178,170, 0.4);
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;
+  margin: 10px;
+  word-wrap: break-word;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.response-style {
+  background-color: rgba(188,143,143, 0.4);
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;
+  margin: 10px;
+  word-wrap: break-word;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.chat-header {
+  background-color: rgba(255, 255, 255, 0.4);
+  fontStyle: italic;
+  padding: 10px 15px;
+  borderRadius: 20px;
+  maxWidth: 70%;
+  margin: 10px;
+  wordWrap: break-word;
+}
