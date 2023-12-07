@@ -1,0 +1,17 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9.6
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port 6789 for WebSocket communication
+EXPOSE 6789
+
+# Run the script when the container launches
+CMD ["python", "./main.py"]
