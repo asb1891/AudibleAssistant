@@ -9,6 +9,12 @@ openai = "*"
 speechrecognition = "*"
 pyobjc = "*"
 gtts = "*"
+flask = "*"
+flask-sqlalchemy = "*"
+sqlalchemy-serializer = "*"
+flask-migrate = "*"
+importlib-resources = "*"
+flask-restful = "*"
 
 [dev-packages]
 

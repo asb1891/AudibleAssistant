@@ -12,6 +12,8 @@ import {
 import { RiPencilLine } from "react-icons/ri";
 import { BiCog } from "react-icons/bi";
 import { useAuth0 } from "@auth0/auth0-react";
+import About from "./About";
+import { Link } from "react-router-dom";
 
 // Import the styles directly. Use the correct path in your project.
 // import "react-pro-sidebar/dist/styles";
@@ -36,12 +38,13 @@ const Header = () => {
         </div>
         <div className="sidebar-content">
           <Menu iconShape="square">
-            <MenuItem active={true} icon={<FiHome />}>Home</MenuItem>
-            <MenuItem icon={<FaList />}>Category</MenuItem>
-            <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
-            <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
-            <MenuItem icon={<BiCog />}>Settings</MenuItem>
-            {/* Conditionally render the Sign Out button */}
+            <Link to="/">
+              <MenuItem icon={<FiHome />}>Home</MenuItem>
+            </Link>
+            <Link to="/about">
+              <MenuItem icon={<RiPencilLine />}>About</MenuItem>
+            </Link>
+            {/* Add links to other routes as needed */}
             {isAuthenticated && (
               <MenuItem icon={<FiLogOut />} onClick={logout}>
                 Sign Out

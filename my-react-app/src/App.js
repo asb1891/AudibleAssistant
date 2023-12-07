@@ -8,6 +8,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "./index.css";
 // import Sidebar from "./Sidebar";
 import Header from "./Header";
+// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// import About from "./About";
+// import RoutesComponent from "./RoutesComponent";
 
 function App() {
   // State to store the WebSocket instance
@@ -15,7 +18,7 @@ function App() {
   // State to store messages received from the server
   const [message, setMessage] = useState(null);
 
-  const [prompt, setPrompt] = useState(null);
+  // const [prompt, setPrompt] = useState("hello");
 
   const [responseData, setResponseData] = useState([]);
 
@@ -28,18 +31,18 @@ function App() {
     newWs.onopen = () => {
       console.log("Connected to the server");
     };
-    newWs.onprompt = (event) => {
-      console.log("Prompt from server:", event.data);
-      setPrompt(event.data);
-    };
+    // newWs.onprompt = (event) => {
+    //   console.log("Prompt from server:", event.data);
+    //   setPrompt(event.data);
+    // };
     // Event handler for receiving messages from the WebSocket server
-    newWs.onmessage = (event) => {
-      console.log("App Console Log:", event.data);
-      const [prompt, response] = event.data.split("\n"); // Assuming the format "PROMPT: ... \n RESPONSE: ..."
-      setResponseData((prevData) => [...prevData, { prompt, response }]);
-      // Update the message state with the received message
-      setMessage(event.data);
-    };
+    // newWs.onmessage = (event) => {
+    //   console.log("App Console Log:", event.data);
+    //   const [prompt, response] = event.data.split("\n"); // Assuming the format "PROMPT: ... \n RESPONSE: ..."
+    //   setResponseData((prevData) => [...prevData, { prompt, response }]);
+    //   // Update the message state with the received message
+    //   setMessage(event.data);
+    // };
     // Event handler for any WebSocket errors
     newWs.onerror = (error) => {
       console.error("WebSocket error:", error);
@@ -80,8 +83,8 @@ function App() {
           <Header />
           <RecordingComponent ws={ws} startRecording={startRecording} />
           <ResponseComponent
-            responseData={responseData}
-            prompt={prompt}
+            // responseData={responseData}
+            // prompt={prompt}
             message={message}
           />
         </>
