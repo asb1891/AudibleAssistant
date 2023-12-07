@@ -1,0 +1,11 @@
+websockets
+SpeechRecognition
+playsound
+gtts
+openai
+pyaudio
+aysncio
+json
+threading
+logging
+socket 
