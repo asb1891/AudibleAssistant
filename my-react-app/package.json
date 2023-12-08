@@ -41,9 +41,9 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
+    "daisyui": "^4.4.19",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6"
   },
-  "proxy" : "http://localhost:5500"
-  
+  "proxy": "http://localhost:5500"
 }

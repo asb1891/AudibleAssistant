@@ -1,58 +1,39 @@
 import React, { useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-
-// Import icons
-import { FaList, FaRegHeart } from "react-icons/fa";
-import {
-  FiHome,
-  FiLogOut,
-  FiArrowLeftCircle,
-  FiArrowRightCircle,
-} from "react-icons/fi";
-import { RiPencilLine } from "react-icons/ri";
-import { BiCog } from "react-icons/bi";
 import { useAuth0 } from "@auth0/auth0-react";
 import About from "./About";
 import { Link } from "react-router-dom";
 
-// Import the styles directly. Use the correct path in your project.
-// import "react-pro-sidebar/dist/styles";
-
-import "./index.css";
-
 const Header = () => {
-  const [menuCollapse, setMenuCollapse] = useState(false);
   const { logout, isAuthenticated } = useAuth0();
+  console.log('Is Authenticated:', isAuthenticated);
 
-  const menuIconClick = () => {
-    setMenuCollapse(!menuCollapse);
-  };
+  const signOutButton = isAuthenticated ? (
+    <li><button onClick={logout}>Sign Out</button></li>
+  ) : null;
 
   return (
-    <div id="header">
-      <Sidebar collapsed={menuCollapse}>
-        <div className="sidebar-header">
-          <div className="closemenu" onClick={menuIconClick}>
-            {menuCollapse ? <FiArrowRightCircle /> : <FiArrowLeftCircle />}
+    <div className="drawer">
+      <input id="my-drawer-3" type="checkbox" className="drawer-toggle" /> 
+      <div className="drawer-content flex flex-col">
+        {/* Navbar */}
+        <div className="w-full navbar bg-base-300">
+          <div className="flex-none lg:hidden">
+            <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
+              {/* Replace with your menu icon */}
+              {/* SVG icon here */}
+            </label>
+          </div> 
+          <div className="flex-1 px-2 mx-2 text-lg font-bold">Audible Assistant</div>
+          <div className="flex-none lg:flex">
+            <ul className="menu menu-horizontal flex-1 justify-end">
+              {/* Navbar menu content here */}
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/about">About</Link></li>
+              {signOutButton}
+            </ul>
           </div>
         </div>
-        <div className="sidebar-content">
-          <Menu iconShape="square">
-            <Link to="/">
-              <MenuItem icon={<FiHome />}>Home</MenuItem>
-            </Link>
-            <Link to="/about">
-              <MenuItem icon={<RiPencilLine />}>About</MenuItem>
-            </Link>
-            {/* Add links to other routes as needed */}
-            {isAuthenticated && (
-              <MenuItem icon={<FiLogOut />} onClick={logout}>
-                Sign Out
-              </MenuItem>
-            )}
-          </Menu>
-        </div>
-      </Sidebar>
+      </div> 
     </div>
   );
 };

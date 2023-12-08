@@ -34,32 +34,32 @@ function ResponseComponent({ message }) {
   const fetchPromptsAndResponses = async () => {
     try {
       // Fetch prompts
-      const promptsResponse = await fetch('http://localhost:5500/prompts');
+      const promptsResponse = await fetch("http://localhost:5500/prompts");
       const promptsData = await promptsResponse.json();
-  
+
       // Fetch responses
-      const responsesResponse = await fetch('http://localhost:5500/responses');
+      const responsesResponse = await fetch("http://localhost:5500/responses");
       const responsesData = await responsesResponse.json();
-  
+
       // Combine prompts and responses
       const combinedData = promptsData.map((promptItem) => {
         // Find the corresponding response
-        const responseItem = responsesData.find(responses => responses.response_id === promptItem.prompt_id);
-  
+        const responseItem = responsesData.find(
+          (responses) => responses.response_id === promptItem.prompt_id
+        );
+
         return {
           prompt: promptItem.prompt_question,
-          response: responseItem ? responseItem.response_answer : ''
+          response: responseItem ? responseItem.response_answer : "",
         };
       });
-  
+
       // Update state
       setResponseData(combinedData);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
-  
-  
 
   // Saving functions
   const saveNewPrompt = async (prompt) => {
@@ -97,49 +97,61 @@ function ResponseComponent({ message }) {
   const clearChat = () => {
     setResponseData([]);
   };
-
   return (
-    <div>
-      <div className="chat-box">
-        <h2 className="chat-header">Audible Assistant</h2>
-        {/* Render each prompt and response in separate bubbles */}
-        {responseData.length > 0 ? (
-          responseData.map(({ prompt, response }, index) => (
-            <React.Fragment key={index}>
-              {prompt && <div className="chat-bubble">{prompt}</div>}
-              {response && <div className="response-style">{response}</div>}
-            </React.Fragment>
-          ))
-        ) : (
-          <div>Ask Away!</div>
-        )}
-      </div>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
-      >
-        <button onClick={clearChat} style={{ textAlign: "center" }}>
-          Clear Chat
-        </button>
-        <button
-          onClick={fetchPromptsAndResponses}
-          style={{ textAlign: "center" }}
-        >
-          Fetch Saved Data
-        </button>
-        <button
-          onClick={() => {
-            responseData.forEach(({ prompt, response }) => {
-              if (prompt) saveNewPrompt(prompt);
-              if (response) saveNewResponse(response);
-            });
-          }}
-          style={{ textAlign: "center" }}
-        >
-          Save Data
-        </button>
+    <div className="flex justify-center items-center h-screen bg-custom-700">
+      <div>
+        <div>
+        <div className="mockup-window border bg-base-300 custom-window">
+          <h1 className="flex justify-center px-4 py-5 bg-base-50"></h1>
+          <div> {/* Container for messages */}
+            {responseData.length > 0 ? (
+              responseData.map(({ prompt, response }, index) => (
+                <React.Fragment key={index}>
+                  {prompt && (
+                    <div className="flex jusitfy-end mb-2"> {/* Align right */}
+                      <div className="chat-bubble chat-bubble-info">{prompt}</div>
+                    </div>
+                  )}
+                  {response && (
+                    <div className="flex justify-start mb-2"> 
+                      <div className="chat-bubble chat-bubble-secondary">{response}</div>
+                    </div>
+                  )}
+                </React.Fragment>
+              ))
+            ) : (
+              <div className="flex jusitfy-end mb-2">
+                <div className="chat-bubble chat-bubble-secondary">
+                  Run the program and begin your prompt with the word "question"
+                  to trigger OpenAI
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="mt-4 flex justify-center gap-2">
+          <button className="btn" onClick={clearChat}>
+            Clear Chat
+          </button>
+          <button className="btn" onClick={fetchPromptsAndResponses}>
+            Fetch Saved Data
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              responseData.forEach(({ prompt, response }) => {
+                if (prompt) saveNewPrompt(prompt);
+                if (response) saveNewResponse(response);
+              });
+            }}
+          >
+            Save Data
+          </button>
+        </div>
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default ResponseComponent;

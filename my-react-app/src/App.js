@@ -6,11 +6,8 @@ import LoginComponent from "./LoginComponent";
 import LogoutComponent from "./LogoutComponent";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./index.css";
-// import Sidebar from "./Sidebar";
 import Header from "./Header";
-// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// import About from "./About";
-// import RoutesComponent from "./RoutesComponent";
+
 
 function App() {
   // State to store the WebSocket instance
@@ -67,9 +64,9 @@ function App() {
     }
   };
   return (
-    <div className={isAuthenticated ? "background-style" : "login-style"}>
+    <div className={isAuthenticated ? "custom window" : "login-style"}>
       {!isAuthenticated ? (
-        <main className="column">
+        <main >
           <h1 className="h1-style">Welcome to Audible Assistant</h1>
           <LoginComponent />
           <h2 className="h2-style">
@@ -79,6 +76,8 @@ function App() {
         </main>
       ) : (
         <>
+        <div>
+        </div>
           {/* <h1 className="header-style">Andrew's Chat</h1> */}
           <Header />
           <RecordingComponent ws={ws} startRecording={startRecording} />

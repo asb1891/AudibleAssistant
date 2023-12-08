@@ -16,18 +16,10 @@ function RecordingComponent({ ws, startRecording }) {
 
     // Render the component
     return (
-        <div style={{
-            display: 'flex', 
-            justifyContent: 'center', // Centers the button horizontally
-            alignItems: 'center', // Centers the button vertically
-            height: '10vh', // Sets the height of the container
-        }}>
-            <button style={{
-                padding: '10px 20px', // Example padding, adjust as needed
-                // Add any other button styles here
-            }} onClick={startRecording}>
+        <div>
+            {/* <button onClick={startRecording}>
                 Turn on Microphone
-            </button>
+            </button> */}
         </div>
     );
 }

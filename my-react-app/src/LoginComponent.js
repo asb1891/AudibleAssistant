@@ -6,8 +6,8 @@ const LoginComponent = () => {
 
   return (
     !isAuthenticated && (
-      <div className="container-style">
-        <button
+      <div className="mt-4 flex justify-center gap-2">
+        <button className="btn"
           onClick={() =>
             loginWithRedirect({
               authorizationParams: {
