@@ -108,7 +108,7 @@ class OpenAIChatbot:
         self.websocket = websocket
 
     async def get_response(self, message):
-        completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "user", "content": message}])
+        completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "system", "content": "talk to me like i a three year old child"},{"role": "user", "content": message}])
         response_text = completion.choices[0].message.content
 
         formatted_message = f"PROMPT: {message}\nRESPONSE: {response_text}"

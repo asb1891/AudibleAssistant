@@ -108,20 +108,20 @@ function ResponseComponent({ message }) {
               responseData.map(({ prompt, response }, index) => (
                 <React.Fragment key={index}>
                   {prompt && (
-                    <div className="flex jusitfy-end mb-2"> {/* Align right */}
-                      <div className="chat-bubble chat-bubble-info">{prompt}</div>
+                    <div className="chat chat-end"> {/* Align right */}
+                      <div className="chat-bubble">{prompt}</div>
                     </div>
                   )}
                   {response && (
-                    <div className="flex justify-start mb-2"> 
-                      <div className="chat-bubble chat-bubble-secondary">{response}</div>
+                    <div className="chat-start mb-2"> 
+                      <div className="chat-bubble">{response}</div>
                     </div>
                   )}
                 </React.Fragment>
               ))
             ) : (
-              <div className="flex jusitfy-end mb-2">
-                <div className="chat-bubble chat-bubble-secondary">
+              <div className="chat chat-end">
+                <div className="chat-bubble">
                   Run the program and begin your prompt with the word "question"
                   to trigger OpenAI
                 </div>
