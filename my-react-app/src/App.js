@@ -67,7 +67,7 @@ function App() {
       {!isAuthenticated ? (
         <main>
           <h1 className="flex-1 px-2 mx-2 text-lg font-bold text-center">
-            Welcome to Audible Assistant
+            Audible Assistant
           </h1>
           <LoginComponent />
         </main>

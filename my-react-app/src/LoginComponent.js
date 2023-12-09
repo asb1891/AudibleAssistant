@@ -25,9 +25,12 @@ const LoginComponent = () => {
             </div>
             <div className="text-center mt-4 text-lg text-white">
               <h2 className="h2-style">
-                Clicking the 'Sign In' button will redirect you to a 3rd party
-                authentication system
+                Welcome to Audible Assistant! A app designed to lend an ear
               </h2>
+              <h3 className="text-center mt-4 text-sm text-white">
+              Clicking the 'Sign In' button will redirect you to a 3rd party
+                authentication system
+              </h3>
             </div>
           </div>
         </div>
