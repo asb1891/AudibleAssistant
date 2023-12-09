@@ -1,3 +1,10 @@
+![Example Image](images/diagram.jpg)
+
+
+
+
+
+
 Voice-Activated Chatbot Application
 
 Description:

@@ -27,10 +27,7 @@ const About = () => {
             </div>
             <div className="text-justify text-white">
               <p>
-                A software developer with experience in building Responsive and
-                Scalable Web apps. I am well-knowledged in UI/UX principles and
-                practices. In addition to software development, I am also a
-                technical writer--simplifying topics/concepts on the web.
+               
               </p>
             </div>
           </div>
