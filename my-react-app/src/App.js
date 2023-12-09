@@ -8,7 +8,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "./index.css";
 import Header from "./Header";
 
-
 function App() {
   // State to store the WebSocket instance
   const [ws, setWs] = useState(null);
@@ -64,28 +63,20 @@ function App() {
     }
   };
   return (
-    <div className={isAuthenticated ? "custom window" : "login-style"}>
+    <div className={isAuthenticated ? "" : ""}>
       {!isAuthenticated ? (
-        <main >
-          <h1 className="h1-style">Welcome to Audible Assistant</h1>
+        <main>
+          <h1 className="flex-1 px-2 mx-2 text-lg font-bold text-center">
+            Welcome to Audible Assistant
+          </h1>
           <LoginComponent />
-          <h2 className="h2-style">
-            Clicking the 'Sign In' button will redirect you to a 3rd party
-            authentication system
-          </h2>
         </main>
       ) : (
         <>
-        <div>
-        </div>
-          {/* <h1 className="header-style">Andrew's Chat</h1> */}
+          <div></div>
           <Header />
           <RecordingComponent ws={ws} startRecording={startRecording} />
-          <ResponseComponent
-            // responseData={responseData}
-            // prompt={prompt}
-            message={message}
-          />
+          <ResponseComponent message={message} />
         </>
       )}
     </div>

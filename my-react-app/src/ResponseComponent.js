@@ -101,53 +101,57 @@ function ResponseComponent({ message }) {
     <div className="flex justify-center items-center h-screen bg-custom-700">
       <div>
         <div>
-        <div className="mockup-window border bg-base-300 custom-window">
-          <h1 className="flex justify-center px-4 py-5 bg-base-50"></h1>
-          <div> {/* Container for messages */}
-            {responseData.length > 0 ? (
-              responseData.map(({ prompt, response }, index) => (
-                <React.Fragment key={index}>
-                  {prompt && (
-                    <div className="chat chat-end"> {/* Align right */}
-                      <div className="chat-bubble">{prompt}</div>
-                    </div>
-                  )}
-                  {response && (
-                    <div className="chat-start mb-2"> 
-                      <div className="chat-bubble">{response}</div>
-                    </div>
-                  )}
-                </React.Fragment>
-              ))
-            ) : (
-              <div className="chat chat-end">
-                <div className="chat-bubble">
-                  Run the program and begin your prompt with the word "question"
-                  to trigger OpenAI
+          <div className="mockup-window border bg-base-300 custom-window">
+            <h1 className="flex justify-center px-4 py-5 bg-base-50"></h1>
+            <div>
+              {" "}
+              {/* Container for messages */}
+              {responseData.length > 0 ? (
+                responseData.map(({ prompt, response }, index) => (
+                  <React.Fragment key={index}>
+                    {prompt && (
+                      <div className="chat chat-end">
+                        {" "}
+                        {/* Align right */}
+                        <div className="chat-bubble">{prompt}</div>
+                      </div>
+                    )}
+                    {response && (
+                      <div className="chat-start mb-2">
+                        <div className="chat-bubble">{response}</div>
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <div className="chat chat-end">
+                  <div className="chat-bubble">
+                    Run the program and begin your prompt with the word
+                    "question" to trigger OpenAI
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-        <div className="mt-4 flex justify-center gap-2">
-          <button className="btn" onClick={clearChat}>
-            Clear Chat
-          </button>
-          <button className="btn" onClick={fetchPromptsAndResponses}>
-            Fetch Saved Data
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              responseData.forEach(({ prompt, response }) => {
-                if (prompt) saveNewPrompt(prompt);
-                if (response) saveNewResponse(response);
-              });
-            }}
-          >
-            Save Data
-          </button>
-        </div>
+          <div className="mt-4 flex justify-center gap-2">
+            <button className="btn" onClick={clearChat}>
+              Clear Chat
+            </button>
+            <button className="btn" onClick={fetchPromptsAndResponses}>
+              Fetch Saved Data
+            </button>
+            <button
+              className="btn"
+              onClick={() => {
+                responseData.forEach(({ prompt, response }) => {
+                  if (prompt) saveNewPrompt(prompt);
+                  if (response) saveNewResponse(response);
+                });
+              }}
+            >
+              Save Data
+            </button>
+          </div>
         </div>
       </div>
     </div>
