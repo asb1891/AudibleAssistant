@@ -6,17 +6,18 @@ import os
 import speech_recognition as sr
 import playsound
 from gtts import gTTS 
-from openai import OpenAI
+import openai 
 import json
 import threading
 import logging
 
 from keys import OPENAI_AUTH_TOKEN
+openai.api_key = OPENAI_AUTH_TOKEN
 
 file_path= os.path.join('/audio_files')
-api_key = OPENAI_AUTH_TOKEN
 
-client = OpenAI(api_key=api_key)
+
+client = OPENAI_AUTH_TOKEN
 
 
 async def websocket_handler(websocket, path):
@@ -100,15 +101,22 @@ def save_to_json(new_data, file_path):
         json.dump(data, file)
 
 class OpenAIChatbot:
-    def __init__(self, api_key):
-        self.api_key = api_key
+    def __init__(self, OPENAI_AUTH_TOKEN):
+        self.api_key = OPENAI_AUTH_TOKEN
         self.websocket = None
 
     def set_websocket(self, websocket):
         self.websocket = websocket
 
     async def get_response(self, message):
-        completion = client.chat.completions.create(model="gpt-4", messages=[{"role": "system", "content": "talk to me like i a three year old child"},{"role": "user", "content": message}])
+        # Use the openai module directly for API calls
+        completion = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "talk to me like I am a three-year-old child"},
+                {"role": "user", "content": message}
+            ]
+        )
         response_text = completion.choices[0].message.content
 
         formatted_message = f"PROMPT: {message}\nRESPONSE: {response_text}"
@@ -123,11 +131,11 @@ class OpenAIChatbot:
 
     
 class MainApplication:
-    def __init__(self, api_key):
+    def __init__(self, OPENAI_AUTH_TOKEN):
         self.audio_manager = AudioManager()
         self.speech_recognition = SpeechRecognition()
         self.text_to_speech = TextToSpeech()
-        self.chatbot = OpenAIChatbot(api_key)
+        self.chatbot = OpenAIChatbot(OPENAI_AUTH_TOKEN)
         self.websocket = None
 
     def set_websocket(self, websocket):
@@ -170,5 +178,5 @@ class MainApplication:
                     break
 if __name__ == "__main__":
     logging.info("Starting the application...")
-    app = MainApplication(api_key)
+    app = MainApplication(OPENAI_AUTH_TOKEN)
     asyncio.run(app.run())
