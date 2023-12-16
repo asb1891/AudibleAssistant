@@ -4,3 +4,6 @@ keys.*
 
 #ignoring AUTH0 tokens in ENV folder 
 .env
+
+#ignore pycache file
+__pycache__/

@@ -85,3 +85,11 @@
   background-color: #374151;
 }
 
+.chat-bubble-secondary {
+  background-color: #fefcbf; /* Different color */
+  /* other styling */
+}
+.chat-bubble-third {
+  background-color: #1ac6c8; /* Different color */
+  /* other styling */
+}

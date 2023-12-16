@@ -1,14 +1,19 @@
-from flask import Flask, request, make_response, jsonify, render_template
-import os
+from flask import Flask, request, make_response, jsonify
 from flask_migrate import Migrate
 from models import db, Prompts, Responses
 from flask_cors import CORS
-
-# run this command to start flask server "flask --app app.py --debug run -p 5500"
+from flask_socketio import SocketIO
+import threading
+import sys 
+from pathlib import Path 
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from main import AudioManager
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")  # Fixed typo
 
+audio_manager = AudioManager(app)
 
 DATABASE = "sqlite:///app.db"
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
@@ -18,6 +23,17 @@ app.debug = True
 migrate = Migrate(app, db)
 
 db.init_app(app)
+
+def start_recording():
+    audio_manager.record_audio()
+    # socketio.emit('recording_complete", {'data': 'Recording complete'})')
+
+@socketio.on('start_recording')
+def handle_start_recording(message):
+    print("Received message to start recording: ", message)
+    threading.Thread(target=start_recording).start()
+    socketio.emit('message', {'data': 'Recording started'})
+
 
 #HOME PAGE ROUTE 
 @app.route('/', methods=['GET'])
@@ -41,7 +57,7 @@ def add_new_prompt():
         )
         db.session.add(new_prompt)
         db.session.commit()
-        return make_response(jsonify(new_prompt.do_dict()), 201)
+        return make_response(jsonify(new_prompt.to_dict()), 201)
     except: 
         return make_response(jsonify({"error": "Could not add a new prompt"}), 400)
 
@@ -62,9 +78,9 @@ def add_new_response():
         )
         db.session.add(new_response)
         db.session.commit()
-        return make_response(jsonify(new_response.do_dict()), 201)
+        return make_response(jsonify(new_response.to_dict()), 201)
     except: 
         return make_response(jsonify({"error": "Could not add a new response"}), 400)
 
 if __name__ == '__main__':
-    app.run(port=5500)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5500)

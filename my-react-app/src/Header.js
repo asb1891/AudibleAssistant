@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import About from "./About";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -37,6 +36,9 @@ const Header = () => {
               {/* Navbar menu content here */}
               <li>
                 <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/Directions">Directions</Link>
               </li>
               <li>
                 <Link to="/about">About</Link>
