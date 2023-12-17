@@ -22,12 +22,25 @@ const Directions = () => {
             <ul className="list-disc space-y-4 pl-5 text-white font-sans mt-0">
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
                 To turn on the microphone, click the "Start Recording" button. This will allow OpenAI to begin listening for a prompt.
+                The microphone will be turned on automatically when the button is clicked.
               </li>
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
-                To turn off the microphone, click the "Stop Recording" button. 
+                You will have 45 seconds to ask a prompt, after that the microphone will automatically be turned off. To turn the microphone back on click the "Start Recording" button again and the timer will reset.
+              </li>
+              <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
+                To turn off the microphone, click the "Stop Recording" button. A "Microphone turned off" message will be displayed.
               </li>
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
                 Consider what you're asking. The more complex the question, the longer OpenAI will take to generate a response.
+              </li>
+              <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
+                To save your conversations, click the "Save Data" button. 
+              </li>
+              <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
+                To clear your chat, click the "Clear Chat" button.
+              </li>
+              <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
+                To get your conversation data, click the "Fetch Saved Data" button.
               </li>
             </ul>
 

@@ -5,8 +5,10 @@ function ResponseComponent() {
   const [ws, setWs] = useState(null);
   const [newWs, setNewWs] = useState(null);
   const [responseData, setResponseData] = useState([]);
-  const [countdown, setCountdown] = useState(45); // Adjust as needed
+  const [countdown, setCountdown] = useState(30); // Adjust as needed
   const [shouldReconnect, setShouldReconnect] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
+  const [showMicOffMessage, setShowMicOffMessage] = useState(false);
 
   const connectWebSocket = useCallback(() => {
     if (!shouldReconnect) return;
@@ -72,38 +74,40 @@ function ResponseComponent() {
 
   useEffect(() => {
     let timer;
-    if (countdown > 0) {
+    if (isRecording && countdown > 0) {
+      setShowMicOffMessage(false); // Ensure the message is not shown while countdown is active
       timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-    } else if (countdown === 0) {
-      // Optional: Add any action you want to perform when the countdown reaches zero
+    } else if (countdown === 0 || !isRecording) {
+      setIsRecording(false);
+      setShowMicOffMessage(true); // Show the message when the countdown ends or recording stops
     }
     return () => clearTimeout(timer);
-  }, [countdown]);
-
+  }, [countdown, isRecording]);
 
   const startRecording = () => {
-    
-    console.log("startRecording function called"); // Add this line for debugging
-    // Check if the WebSocket instance exists and is in the OPEN state
+    console.log("startRecording function called");
     if (ws && ws.readyState === WebSocket.OPEN) {
-      // Send a message to the WebSocket server to start recording
       ws.send("start_recording");
+      setIsRecording(true);
+      setShowMicOffMessage(false); // Reset the message display when recording starts
     } else {
-      // Log a message if the WebSocket is not connected
       console.log("WebSocket is not connected.");
     }
-  }
+  };
+
   const stopRecording = () => {
-    console.log("stopRecording function called"); // Add this line for debugging
+    console.log("stopRecording function called");
     if (newWs && newWs.readyState === WebSocket.OPEN) {
       newWs.send("stop_recording");
     } else {
       console.log("Second WebSocket is not connected.");
     }
+    setIsRecording(false);
+    setShowMicOffMessage(true); // Show the message when recording is manually stopped
   };
 
   const handleButtonClick = () => {
-    setCountdown(45);
+    setCountdown(30); // Set your desired countdown duration here
     startRecording();
   };
 
@@ -177,9 +181,10 @@ function ResponseComponent() {
   };
   return (
     <div className="flex justify-center items-center h-screen bg-custom-700">
-      <div className="flex flex-col items-center gap-4">
-        {/* Countdown Display */}
-
+    <div className="flex flex-col items-center gap-4">
+      {/* Button and Countdown Container */}
+      <div className="flex flex-col items-center gap-2">
+        {/* Buttons */}
         <div className="flex gap-2 justify-center">
           <button onClick={handleButtonClick} className="btn">
             Start Recording
@@ -188,10 +193,20 @@ function ResponseComponent() {
             Stop Recording
           </button>
         </div>
-        <span className="countdown font-sans text-2xl">
-          {countdown !== null &&
-            `${countdown} seconds until microphone turns off`}
-        </span>
+        {/* Message */}
+        {showMicOffMessage ? (
+          <span className="message font-sans text-red-500  text-2xl">
+            Microphone turned off
+          </span>
+        ) : (
+          isRecording && countdown !== null && (
+            <span className="countdown font-sans text-red-500 text-2xl">
+              {`${countdown} seconds until microphone turns off`}
+            </span>
+          )
+        )}
+      </div>
+  
         <div className="mockup-window border bg-base-300 custom-window w-full p-4 overflow-y-auto">
           {/* Container for messages */}
           {responseData.length > 0 ? (
@@ -215,12 +230,12 @@ function ResponseComponent() {
             ))
           ) : (
             <div className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2 text-center p-4">
-              Click on the ./Directions link in the navigation bar to learn more
+              Go to the Directions page in the navigation bar to learn more
               about AI and how to use Audible Assistant
             </div>
           )}
         </div>
-
+  
         <div className="mt-4 flex justify-center gap-2">
           <button className="btn" onClick={clearChat}>
             Clear Chat

@@ -9,6 +9,16 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from main import AudioManager
 
+'''
+RUN THESE COMMMANDS TO START FLASK SERVER 
+
+➜  export PATH="/Library/Frameworks/Python.framework/Versions/3.11/bin:$PATH"
+
+➜  source ~/.zshrc
+
+➜  flask --app app.py --debug run -p 5500
+'''
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")  # Fixed typo

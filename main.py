@@ -113,8 +113,8 @@ class AudioManager:
                         print("done handle speech ")
 
                     # Check if the time since the last speech exceeds 60 seconds (1 minute)
-                    if time.time() - last_speech_time > 45:
-                        print("No speech detected for 45 seconds, stopping recording.")
+                    if time.time() - last_speech_time > 30:
+                        print("No speech detected for 30 seconds, stopping recording.")
                         self.is_recording = False  # Stop recording
 
                 except sr.WaitTimeoutError:
