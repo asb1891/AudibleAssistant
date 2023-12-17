@@ -50,8 +50,9 @@ async def second_websocket_handler(websocket, path):
                 if message == "stop_recording":
                     print("Stopping recording...")
                     await app.stop_recording()
-                else:
-                    print("No message received.")
+                elif message == "start_recording":
+                    await app.start_recording()
+                    await app.handle_speech_interaction()
     except Exception as e:
         if websocket.state == State.OPEN:
             await websocket.close()

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./App.css";
 import RecordingComponent from "./RecordingComponent";
 import ResponseComponent from "./ResponseComponent";
@@ -10,73 +10,8 @@ import "./index.css";
 import Header from "./Header";
 
 function App() {
-  // State to store the WebSocket instance
-  const [ws, setWs] = useState(null);
-  // State to store messages received from the server
-  const [message, setMessage] = useState(null);
-  // State to stroe the new WebSocket instance
-  const [newWs, setNewWs] = useState(null);
-
-  // const [prompt, setPrompt] = useState("hello");
-
-  // const [responseData, setResponseData] = useState([]);
 
   const { isAuthenticated } = useAuth0();
-
-  useEffect(() => {
-    // Create a new WebSocket connection when the component mounts
-    const newWs = new WebSocket("ws://localhost:6789");
-    // Event handler for when the WebSocket connection opens
-    newWs.onopen = () => {
-      console.log("Connected to the server");
-    };
-    newWs.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-    // Update the WebSocket state with the new WebSocket instance
-    setWs(newWs);
-
-    // Clean up function: Close the WebSocket when the component unmounts
-    return () => {
-      newWs.close();
-    };
-  }, []); // Empty dependency array means this effect runs once on mount and never again
-
-  useEffect(() => {
-    const secondWS = new WebSocket("ws://localhost:5678");
-    secondWS.onopen = () => {
-      console.log("Second WS Connected to Server");
-    };
-    secondWS.onerror = (error) => {
-      console.error("Second WS error:", error);
-    };
-    setNewWs(secondWS);
-    return () => {
-      secondWS.close();
-    };
-  }, []);
-
-
-
-  const startRecording = () => {
-    console.log("startRecording function called"); // Add this line for debugging
-    // Check if the WebSocket instance exists and is in the OPEN state
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      // Send a message to the WebSocket server to start recording
-      ws.send("start_recording");
-    } else {
-      // Log a message if the WebSocket is not connected
-      console.log("WebSocket is not connected.");
-    }
-  }
-  const stopRecording = () => {
-    console.log("stopRecording function called"); // Add this line for debugging
-    if (newWs && newWs.readyState === WebSocket.OPEN) {
-      newWs.send("stop_recording");
-    } else {
-      console.log("Second WebSocket is not connected.");
-    }
-  };
 
   return (
     <div className={isAuthenticated ? "" : ""}>
@@ -92,7 +27,7 @@ function App() {
           <div></div>
           <Header />
           {/* <RecordingComponent ws={ws} startRecording={startRecording} /> */}
-          <ResponseComponent startRecording={startRecording}  message={message} stopRecording={stopRecording} />
+          <ResponseComponent />
           
         </>
       )}

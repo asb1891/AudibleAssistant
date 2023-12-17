@@ -1,12 +1,75 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./index.css";
 
-function ResponseComponent({ message, startRecording, stopRecording }) {
+function ResponseComponent() {
   const [ws, setWs] = useState(null);
+  const [newWs, setNewWs] = useState(null);
   const [responseData, setResponseData] = useState([]);
-  const [countdown, setCountdown] = useState(null);
+  const [countdown, setCountdown] = useState(45); // Adjust as needed
+  const [shouldReconnect, setShouldReconnect] = useState(true);
 
-  console.log(prompt);
+  const connectWebSocket = useCallback(() => {
+    if (!shouldReconnect) return;
+
+    const newWsInstance = new WebSocket("ws://localhost:6789");
+
+    newWsInstance.onopen = () => {
+      console.log("WebSocket Connected");
+      newWsInstance.send("hello from the client side");
+    };
+
+    newWsInstance.onmessage = (event) => {
+      console.log("Message from server:", event.data);
+      const [prompt, response] = event.data.split("\n"); // Handling incoming messages
+      setResponseData((prevData) => [...prevData, { prompt, response }]);
+      setCountdown(30); // Resetting countdown on receiving message
+    };
+
+    newWsInstance.onclose = () => {
+      console.log("WebSocket closed, attempting to reconnect...");
+      if (shouldReconnect) {
+        setTimeout(connectWebSocket, 3000); // Reconnect after 3 seconds
+      }
+    };
+
+    setWs(newWsInstance);
+  }, [shouldReconnect]);
+
+  useEffect(() => {
+    connectWebSocket();
+    return () => {
+      setShouldReconnect(false);
+      ws?.close();
+    };
+  }, [connectWebSocket, ws]);
+
+  const connectSecondWebSocket = useCallback(() => {
+    if (!shouldReconnect) return;
+
+    const secondWSInstance = new WebSocket("ws://localhost:5678");
+
+    secondWSInstance.onopen = () => {
+      console.log("Second WS Connected to Server");
+    };
+
+    secondWSInstance.onclose = () => {
+      console.log("Second WebSocket closed, attempting to reconnect...");
+      if (shouldReconnect) {
+        setTimeout(connectSecondWebSocket, 3000); // Reconnect after 3 seconds
+      }
+    };
+
+    setNewWs(secondWSInstance);
+  }, [shouldReconnect]);
+
+  useEffect(() => {
+    connectSecondWebSocket();
+    return () => {
+      setShouldReconnect(false);
+      newWs?.close();
+    };
+  }, [connectSecondWebSocket, newWs]);
+
   useEffect(() => {
     let timer;
     if (countdown > 0) {
@@ -17,34 +80,33 @@ function ResponseComponent({ message, startRecording, stopRecording }) {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-  useEffect(() => {
-    const newWs = new WebSocket("ws://localhost:6789");
 
-    newWs.onopen = () => {
-      console.log("WebSocket Connected");
-      newWs.send("get_response");
-    };
-
-    newWs.onmessage = (event) => {
-      console.log("Message from server:", event.data);
-      const [prompt, response] = event.data.split("\n"); // Assuming the format "PROMPT: ... \n RESPONSE: ..."
-      setResponseData((prevData) => [...prevData, { prompt, response }]);
-      setCountdown(45)
-    };
-
-    newWs.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    setWs(newWs);
-
-    return () => newWs.close();
-  }, []);
+  const startRecording = () => {
+    
+    console.log("startRecording function called"); // Add this line for debugging
+    // Check if the WebSocket instance exists and is in the OPEN state
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      // Send a message to the WebSocket server to start recording
+      ws.send("start_recording");
+    } else {
+      // Log a message if the WebSocket is not connected
+      console.log("WebSocket is not connected.");
+    }
+  }
+  const stopRecording = () => {
+    console.log("stopRecording function called"); // Add this line for debugging
+    if (newWs && newWs.readyState === WebSocket.OPEN) {
+      newWs.send("stop_recording");
+    } else {
+      console.log("Second WebSocket is not connected.");
+    }
+  };
 
   const handleButtonClick = () => {
     setCountdown(45);
     startRecording();
   };
+
 
   // Fetching functions
   const fetchPromptsAndResponses = async () => {
