@@ -47,10 +47,8 @@ Obtain an API key from OpenAI and set it in the keys.py file as OPENAI_AUTH_TOKE
 
 How to use: 
 
-Once all required dependencies are installed,
-
-*Run 'python3 main.py' in Python terminal
-*Run 'npm start' in React terminal
-*Run 'flask --app app.py --debug run -p 5500' in Flask terminal
+    *Run 'python3 main.py' in Python terminal
+    *Run 'npm start' in React terminal
+    *Run 'flask --app app.py --debug run -p 5500' in Flask terminal
 
 
