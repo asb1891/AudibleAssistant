@@ -2,53 +2,36 @@
 
 
 Audible Assistant
+Introduction
+Welcome to Audible Assistant, a cutting-edge full-stack application that brings the power of voice-activated technology to your fingertips. Leveraging OpenAI's advanced GPT-4 model, Audible Assistant transforms the way you interact with technology through speech.
 
-Description:
-
-This full stack application integrates various components to create a voice-activated chatbot. It uses speech recognition to interpret spoken input, converts text to speech for audible responses, and leverages the OpenAI GPT-4 model for intelligent and interactive conversation. The application provides an interactive experience where users can speak to the application and receive spoken responses from the chatbot.
-
-Features:
-
-- Speech Recognition: Converts spoken words into text using Google's speech recognition.
-- Text to Speech: Converts chatbot responses into spoken words.
-- OpenAI Chatbot: Integrates with OpenAI's GPT-4 model to generate conversational responses.
-
-Requirements:
-
-    * Python 3.x
-    * PyAudio
-    * SpeechRecognition
-    * gTTS (Google Text-to-Speech)
-    * playsound
-    * OpenAI Key 
-    * JavaScript/React 
-    * Flask 
-    * Socketio
-    * Websockets
-    * Threading
-    * Time
-
-Installation:
-
+Features
+Speech Recognition: Utilizing Google's speech recognition to understand your spoken words.
+Text to Speech: Bringing chatbot responses to life with audible speech.
+OpenAI Chatbot: Powered by OpenAI's GPT-4 for smart, interactive conversations.
+Requirements
+Python 3.x
+PyAudio
+SpeechRecognition
+gTTS (Google Text-to-Speech)
+playsound
+OpenAI Key
+JavaScript/React
+Flask
+Socketio
+Websockets
+Threading
+Time
+Installation
 Clone this repository or download the source code.
+Ensure Python 3.x is installed.
+Install required Python packages: pip install -r requirements.txt
+Install JavaScript/React packages: npm install
+Install Flask dependencies: pip install Flask
+Configuration
+Obtain an OpenAI API key from OpenAI. Set this key in keys.py as OPENAI_AUTH_TOKEN.
 
-Ensure Python 3.x is installed on your system.
-
-Install required Python packages in bash terminal
-
-Install required Javascript/React packages in bash terminal
-
-Install required Flask dependencies in bash terminal
-
-
-Configuration:
-
-Obtain an API key from OpenAI and set it in the keys.py file as OPENAI_AUTH_TOKEN.
-
-How to use: 
-
-    *Run 'python3 main.py' in Python terminal
-    *Run 'npm start' in React terminal
-    *Run 'flask --app app.py --debug run -p 5500' in Flask terminal
-
-
+How to Use
+Start the Python server: python3 main.py
+Launch the React app: npm start
+Run the Flask server: flask --app app.py --debug run -p 5500
