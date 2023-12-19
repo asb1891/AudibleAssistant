@@ -1,5 +1,3 @@
-![Example Image](images/diagram.jpg)
-
 
 Audible Assistant: 
 
@@ -46,9 +44,8 @@ How to run Audbile Assistant:
 3. Run the Flask server: flask --app app.py --debug run -p 5500
 ->(make sure ports are available on your local machine)
 
-How to log in toAudbile Assistant:
+How to Sign In/Sign Up to Audbile Assistant 
 
-Sign In/Sign Up Page
 1. Click sign in button, this will redirect you to third party authentication page
 2. You can sign up using your Apple ID, Google account, or Github account
 ->After sign up or sign in, you will be redirected to Audible Assistant home page
