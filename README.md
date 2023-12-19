@@ -11,20 +11,20 @@ Speech Recognition: Utilizing Google's speech recognition to understand your spo
 Text to Speech: Bringing chatbot responses to life with audible speech.
 OpenAI Chatbot: Powered by OpenAI's GPT-4 for smart, interactive conversations.
 
-Requirement Dependencies:
+Required Python Dependencies:
 
-    *Python 3.x
-    *PyAudio
-    *SpeechRecognition
-    *gTTS (Google Text-to-Speech)
-    *playsound
-    *OpenAI Key
-    *JavaScript/React
-    *Flask
-    *Socketio
-    *Websockets
-    *Threading
-    *Time
+    playsound
+    openai
+    speechrecognition
+    pyobjc
+    gtts 
+    flask
+    flask-sqlalchemy 
+    sqlalchemy-serializer 
+    flask-migrate 
+    importlib-resources 
+    flask-restful 
+
     
 
 Installation: 
