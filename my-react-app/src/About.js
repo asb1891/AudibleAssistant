@@ -27,6 +27,9 @@ const About = () => {
               <p>
                A budding software engineer who is passionate about learning new technologies. Audible Assistant is my first full stack application as a software developer. Designed to work in the background, Audible Assistant is here to listen and help improve your workflow.
               </p>
+              <div classname ="text-left text-sm italic text-white">
+              <p  >For more information about Audible Assistant, please send an email to: a.blumenthalphoto@gmail.com</p>
+              </div>
             </div>
           </div>
         </div>

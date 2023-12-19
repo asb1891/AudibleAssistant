@@ -25,7 +25,7 @@ const Directions = () => {
                 The microphone will be turned on automatically when the button is clicked.
               </li>
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
-                You will have 45 seconds to ask a prompt, after that the microphone will automatically be turned off. To turn the microphone back on click the "Start Recording" button again and the timer will reset.
+                You will have 30 seconds to ask a prompt, after that the microphone will automatically be turned off. To turn the microphone back on click the "Start Recording" button again and the timer will reset.
               </li>
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
                 To turn off the microphone, click the "Stop Recording" button. A "Microphone turned off" message will be displayed.
