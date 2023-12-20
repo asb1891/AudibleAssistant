@@ -17,7 +17,7 @@ const Header = () => {
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="w-full navbar bg-base-300">
+        <div className="w-full navbar bg-slate-800">
           <div className="flex-none lg:hidden">
             <label
               htmlFor="my-drawer-3"

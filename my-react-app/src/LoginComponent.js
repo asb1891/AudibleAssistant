@@ -6,7 +6,7 @@ const LoginComponent = () => {
 
   return (
     !isAuthenticated && (
-      <div className="flex justify-center items-center h-screen bg-custom-700">
+      <div className="flex justify-center items-center h-screen your-class">
         <div className="mockup-window border bg-base-300 custom-window">
           <div className="flex flex-col justify-center px-4 py-5 bg-base-50">
             <div className="flex justify-center">

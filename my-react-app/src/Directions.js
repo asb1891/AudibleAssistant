@@ -6,7 +6,7 @@ const Directions = () => {
     return (
       <div>
         <Header />
-        <div className="flex justify-center items-center h-screen bg-custom-700">
+        <div className="flex justify-center items-center h-screen your-class">
           <div className="mockup-window border bg-base-300 custom-window">
             <h1 className="text-lg font-bold font  text-center text-white px-2 mx-2 mb-2">Things to consider about AI</h1>
             <ul className="list-disc space-y-4 pl-5 text-white font-sans mt-0">

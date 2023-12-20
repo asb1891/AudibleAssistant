@@ -111,7 +111,6 @@ function ResponseComponent() {
     startRecording();
   };
 
-
   // Fetching functions
   const fetchPromptsAndResponses = async () => {
     try {
@@ -180,48 +179,67 @@ function ResponseComponent() {
     setResponseData([]);
   };
   return (
-    <div className="flex justify-center items-center h-screen bg-custom-700">
-    <div className="flex flex-col items-center gap-4">
-      {/* Button and Countdown Container */}
-      <div className="flex flex-col items-center gap-2">
-        {/* Buttons */}
-        <div className="flex gap-2 justify-center">
-          <button onClick={handleButtonClick} className="btn">
-            Start Recording
-          </button>
-          <button onClick={stopRecording} className="btn">
-            Stop Recording
-          </button>
+    <div className="flex justify-center items-center h-screen your-class">
+      <div className="flex flex-col items-center gap-4">
+        {/* Button and Countdown Container */}
+        <div className="flex flex-col items-center gap-6">
+          {/* Message */}
+          {showMicOffMessage ? (
+            <div>
+              <img
+                src="/no-microphone.gif"
+                alt="microphone off"
+                style={{ width: "75px", height: "auto" }}
+              />
+            </div>
+          ) : (
+            isRecording &&
+            countdown !== null && (
+              <div>
+                <img
+                  src="/podcast.gif"
+                  alt="Podcast Gif"
+                  style={{ width: "75px", height: "auto" }}
+                />
+                {/* <span className="countdown font-sans text-red-500 text-2xl">
+                  {countdown}
+                </span> */}
+              </div>
+            )
+          )}
+
+          {/* Buttons */}
+          <div className="flex gap-2 justify-center">
+            <button
+              onClick={handleButtonClick}
+              className="btn btn-outline btn-info"
+            >
+              Start Recording
+            </button>
+            <button
+              onClick={stopRecording}
+              className="btn btn-outline btn-warning"
+            >
+              Stop Recording
+            </button>
+          </div>
         </div>
-        {/* Message */}
-        {showMicOffMessage ? (
-          <span className="message font-sans text-red-500  text-2xl">
-            Microphone turned off
-          </span>
-        ) : (
-          isRecording && countdown !== null && (
-            <span className="countdown font-sans text-red-500 text-2xl">
-              {`${countdown} seconds until microphone turns off`}
-            </span>
-          )
-        )}
-      </div>
-  
-        <div className="mockup-window border bg-base-300 custom-window w-full p-4 overflow-y-auto">
+
+        <div className="mockup-window border-solid border-2 border-zinc-700 bg-base-300 custom-window w-full p-4 overflow-y-auto">
           {/* Container for messages */}
           {responseData.length > 0 ? (
             responseData.map(({ prompt, response }, index) => (
               <React.Fragment key={index}>
                 {prompt && (
-                  <div className="w-full p-2 flex justify-end">
-                    <div className="chat-bubble chat-bubble-third text-black p-3 rounded-lg max-w-xs mb-2">
+                  <div className="w-full flex justify-end">
+                    <div className="chat-bubble chat-bubble-third text-black rounded-lg max-w-xs mb-2">
                       {prompt}
                     </div>
                   </div>
                 )}
                 {response && (
-                  <div className="w-full p-2 flex justify-start">
-                    <div className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
+                  <div className="w-full flex justify-start">
+                    <div className="chat-bubble chat-bubble-secondary bg-yellow-300 rounded-lg max-w-xs mb-2">
                       {response}
                     </div>
                   </div>
@@ -229,22 +247,28 @@ function ResponseComponent() {
               </React.Fragment>
             ))
           ) : (
-            <div className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2 text-center p-4">
+            <div className="chat-bubble chat-bubble-secondary bg-yellow-300 rounded-lg max-w-xs mb-2 text-center">
               Go to the Directions page in the navigation bar to learn more
               about AI and how to use Audible Assistant
             </div>
           )}
         </div>
-  
-        <div className="mt-4 flex justify-center gap-2">
-          <button className="btn" onClick={clearChat}>
+
+        <div className="mt-4 flex justify-center gap-2 mb-14">
+          <button
+            className="btn btn-outline btn-warning"
+            onClick={clearChat}
+          >
             Clear Chat
           </button>
-          <button className="btn" onClick={fetchPromptsAndResponses}>
-            Fetch Saved Data
+          <button
+            className="btn btn-outline btn-info"
+            onClick={fetchPromptsAndResponses}
+          >
+            Fetch Saved Chats
           </button>
           <button
-            className="btn"
+            className="btn btn-outline btn-success"
             onClick={() => {
               responseData.forEach(({ prompt, response }) => {
                 if (prompt) saveNewPrompt(prompt);
@@ -252,7 +276,7 @@ function ResponseComponent() {
               });
             }}
           >
-            Save Data
+            Save Chats
           </button>
         </div>
       </div>
