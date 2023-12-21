@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 
@@ -19,14 +19,14 @@ const Header = () => {
         {/* Navbar */}
         <div className="w-full navbar bg-slate-800">
           <div className="flex-none lg:hidden">
-            <label
+            {/* <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
               className="btn btn-square btn-ghost"
             >
               {/* Replace with your menu icon */}
               {/* SVG icon here */}
-            </label>
+            {/* </label> */} 
           </div>
           <div className="flex-1 px-2 mx-2 text-lg font-bold">
             Audible Assistant

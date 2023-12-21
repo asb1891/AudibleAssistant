@@ -182,7 +182,7 @@ function ResponseComponent() {
     <div className="flex justify-center items-center h-screen your-class">
       <div className="flex flex-col items-center gap-4">
         {/* Button and Countdown Container */}
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center gap-6 mt-4">
           {/* Message */}
           {showMicOffMessage ? (
             <div>

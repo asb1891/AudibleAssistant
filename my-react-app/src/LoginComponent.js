@@ -28,7 +28,7 @@ const LoginComponent = () => {
                 Welcome to Audible Assistant! A app designed to lend an ear
               </h2>
               <h3  className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
-              Clicking the 'Sign In' button will redirect you to a 3rd party
+              Disclaimer: Clicking the 'Sign In' button will redirect you to a 3rd party
                 authentication system
               </h3>
             </div>

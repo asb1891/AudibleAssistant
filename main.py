@@ -50,9 +50,9 @@ async def second_websocket_handler(websocket, path):
                 if message == "stop_recording":
                     print("Stopping recording...")
                     await app.stop_recording()
-                elif message == "start_recording":
-                    await app.start_recording()
-                    await app.handle_speech_interaction()
+                # elif message == "start_recording":
+                #     await app.start_recording()
+                #     await app.handle_speech_interaction()
     except Exception as e:
         if websocket.state == State.OPEN:
             await websocket.close()
@@ -126,7 +126,8 @@ class AudioManager:
 
     def stop_recording(self):
         # Set the 'is_recording' flag to False, which will end the recording loop.
-        self.is_recording = False
+        with sr.Microphone():  # Opens the microphone as the audio source
+            self.is_recording = False
     # Define a method to recognize speech from audio.
     def recognize_speech(self, audio):
         try:
