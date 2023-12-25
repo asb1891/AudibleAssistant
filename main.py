@@ -32,7 +32,7 @@ async def websocket_handler(websocket, path):
                     await app.start_recording()  # Starts audio recording
                     await app.handle_speech_interaction()  # Handles the speech interaction
                     print("Recording complete.")
-                    continue
+                    
                 
         else:
             await websocket.close()  # Closes the WebSocket connection if the origin is not allowed

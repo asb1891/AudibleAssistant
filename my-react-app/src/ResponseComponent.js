@@ -1,76 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import InputComponent from "./InputComponent";
 import "./index.css";
 
-function ResponseComponent() {
-  const [ws, setWs] = useState(null);
-  const [newWs, setNewWs] = useState(null);
-  const [responseData, setResponseData] = useState([]);
-  const [countdown, setCountdown] = useState(30); // Adjust as needed
-  const [shouldReconnect, setShouldReconnect] = useState(true);
+function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown, responseData, setResponseData }) {
+
   const [isRecording, setIsRecording] = useState(false);
   const [showMicOffMessage, setShowMicOffMessage] = useState(false);
 
-  const connectWebSocket = useCallback(() => {
-    if (!shouldReconnect) return;
-
-    const newWsInstance = new WebSocket("ws://localhost:6789");
-
-    newWsInstance.onopen = () => {
-      console.log("WebSocket Connected");
-      newWsInstance.send("hello from the client side");
-    };
-
-    newWsInstance.onmessage = (event) => {
-      console.log("Message from server:", event.data);
-      const [prompt, response] = event.data.split("\n"); // Handling incoming messages
-      setResponseData((prevData) => [...prevData, { prompt, response }]);
-      setCountdown(30); // Resetting countdown on receiving message
-    };
-
-    newWsInstance.onclose = () => {
-      console.log("WebSocket closed, attempting to reconnect...");
-      if (shouldReconnect) {
-        setTimeout(connectWebSocket, 3000); // Reconnect after 3 seconds
-      }
-    };
-
-    setWs(newWsInstance);
-  }, [shouldReconnect]);
-
-  useEffect(() => {
-    connectWebSocket();
-    return () => {
-      setShouldReconnect(false);
-      ws?.close();
-    };
-  }, [connectWebSocket, ws]);
-
-  const connectSecondWebSocket = useCallback(() => {
-    if (!shouldReconnect) return;
-
-    const secondWSInstance = new WebSocket("ws://localhost:5678");
-
-    secondWSInstance.onopen = () => {
-      console.log("Second WS Connected to Server");
-    };
-
-    secondWSInstance.onclose = () => {
-      console.log("Second WebSocket closed, attempting to reconnect...");
-      if (shouldReconnect) {
-        setTimeout(connectSecondWebSocket, 3000); // Reconnect after 3 seconds
-      }
-    };
-
-    setNewWs(secondWSInstance);
-  }, [shouldReconnect]);
-
-  useEffect(() => {
-    connectSecondWebSocket();
-    return () => {
-      setShouldReconnect(false);
-      newWs?.close();
-    };
-  }, [connectSecondWebSocket, newWs]);
 
   useEffect(() => {
     let timer;
@@ -82,7 +18,7 @@ function ResponseComponent() {
       setShowMicOffMessage(true); // Show the message when the countdown ends or recording stops
     }
     return () => clearTimeout(timer);
-  }, [countdown, isRecording]);
+  }, [countdown, setCountdown, isRecording]);
 
   const startRecording = () => {
     console.log("startRecording function called");
@@ -180,6 +116,7 @@ function ResponseComponent() {
   };
   return (
     <div className="flex justify-center items-center h-screen your-class">
+      
       <div className="flex flex-col items-center gap-4">
         {/* Button and Countdown Container */}
         <div className="flex flex-col items-center gap-6 mt-4">
@@ -201,9 +138,6 @@ function ResponseComponent() {
                   alt="Podcast Gif"
                   style={{ width: "75px", height: "auto" }}
                 />
-                {/* <span className="countdown font-sans text-red-500 text-2xl">
-                  {countdown}
-                </span> */}
               </div>
             )
           )}
@@ -223,6 +157,9 @@ function ResponseComponent() {
               Stop Recording
             </button>
           </div>
+          {/* <div>
+        <input type="text" placeholder="Type here" className="input input-bordered input-lg w-full max-w-xs" />
+        </div> */}
         </div>
 
         <div className="mockup-window border-solid border-2 border-zinc-700 bg-base-300 custom-window w-full p-4 overflow-y-auto">
