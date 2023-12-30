@@ -20,9 +20,9 @@
   overflow-y: auto;
 }
 
-.chat-bubble {
-  position: relative;
-  background-color: rgba(32,178,170, 0.4);
+.chat-bubble,
+.response-style {
+  background-color: rgba(188,143,143, 0.4);
   padding: 10px 15px;
   border-radius: 20px;
   max-width: 70%;
@@ -35,19 +35,6 @@
   margin-right: 0;
 }
 
-.response-style {
-  background-color: rgba(188,143,143, 0.4);
-  padding: 10px 15px;
-  border-radius: 20px;
-  max-width: 70%;
-  margin: 10px;
-  word-wrap: break-word;
-  text-align: left;
-  font-size: 16px;
-  line-height: 1.5;
-  margin-left: 0;
-  margin-right: auto;
-}
 
 @media only screen and (max-width: 720px) {
   html {
@@ -69,7 +56,8 @@
 }
 .custom-window {
     max-width: 500px; /* Set width to 500px */
-    height: 600px; /* Set height to 600px */
+    min-height: 600px;
+    height: auto; /* Set height to 600px */
     background: linear-gradient(0deg, #1E2C3D 0%, #3E364E 100%);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     font-family: 'Helvetica Neue';
@@ -87,7 +75,16 @@
 
 .chat-bubble-secondary {
   background-color: #fefcbf; /* Different color */
-  /* other styling */
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;
+  margin: 10px;
+  word-wrap: break-word;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: 0;
+  margin-right: auto;
 }
 .chat-bubble-third {
   background-color: #1ac6c8; /* Different color */
@@ -105,4 +102,6 @@
     hsl(196deg 32% 70%) 43%,
     hsl(0deg 0% 100%) 88%
   );
+  min-height: 100vh; /* Minimum height of the viewport's height */
+  width: 100%; /* Ensure the element stretches to full width */
 }
