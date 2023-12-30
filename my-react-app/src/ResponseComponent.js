@@ -115,18 +115,18 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
     setResponseData([]);
   };
   return (
-    <div className="flex justify-center items-center h-screen your-class">
+    <div className="flex justify-center items-center h-screen your-class min-h-screen w-fulla">
       
       <div className="flex flex-col items-center gap-4">
         {/* Button and Countdown Container */}
-        <div className="flex flex-col items-center gap-6 mt-4">
+        <div className="flex flex-col items-center mt-4">
           {/* Message */}
           {showMicOffMessage ? (
             <div>
               <img
                 src="/no-microphone.gif"
                 alt="microphone off"
-                style={{ width: "75px", height: "auto" }}
+                style={{ width: "60px", height: "auto" }}
               />
             </div>
           ) : (
@@ -136,30 +136,28 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
                 <img
                   src="/podcast.gif"
                   alt="Podcast Gif"
-                  style={{ width: "75px", height: "auto" }}
+                  style={{ width: "60px", height: "auto" }}
                 />
               </div>
             )
           )}
 
           {/* Buttons */}
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-2 justify-center mt-2">
             <button
               onClick={handleButtonClick}
-              className="btn btn-outline btn-info"
+              className="btn btn-outline btn-sm  btn-info"
             >
-              Start Recording
+              Mic On
             </button>
             <button
               onClick={stopRecording}
-              className="btn btn-outline btn-warning"
+              className="btn btn-outline btn-sm btn-warning"
             >
-              Stop Recording
+              Mic Off
             </button>
           </div>
-          {/* <div>
-        <input type="text" placeholder="Type here" className="input input-bordered input-lg w-full max-w-xs" />
-        </div> */}
+          <InputComponent />
         </div>
 
         <div className="mockup-window border-solid border-2 border-zinc-700 bg-base-300 custom-window w-full p-4 overflow-y-auto">
@@ -175,7 +173,7 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
                   </div>
                 )}
                 {response && (
-                  <div className="w-full flex justify-start">
+                  <div className="w-full flex justify-start response-style2">
                     <div className="chat-bubble chat-bubble-secondary bg-yellow-300 rounded-lg max-w-xs mb-2">
                       {response}
                     </div>
@@ -184,28 +182,28 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
               </React.Fragment>
             ))
           ) : (
-            <div className="chat-bubble chat-bubble-secondary bg-yellow-300 rounded-lg max-w-xs mb-2 text-center">
+            <div className="chat-bubble chat-bubble-third text-black bg-yellow-300 rounded-lg max-w-xs mb-2 text-center">
               Go to the Directions page in the navigation bar to learn more
               about AI and how to use Audible Assistant
             </div>
           )}
         </div>
 
-        <div className="mt-4 flex justify-center gap-2 mb-14">
+        <div className="mt-4 flex justify-center gap-4 mb-14">
           <button
-            className="btn btn-outline btn-warning"
+            className="btn btn-outline btn-sm btn-warning"
             onClick={clearChat}
           >
             Clear Chat
           </button>
           <button
-            className="btn btn-outline btn-info"
+            className="btn btn-outline btn-sm btn-info"
             onClick={fetchPromptsAndResponses}
           >
             Fetch Saved Chats
           </button>
           <button
-            className="btn btn-outline btn-success"
+            className="btn btn-outline btn-sm btn-success"
             onClick={() => {
               responseData.forEach(({ prompt, response }) => {
                 if (prompt) saveNewPrompt(prompt);
