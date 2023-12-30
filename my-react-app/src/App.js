@@ -91,7 +91,6 @@ function App() {
       ) : (
         <>
           <Header />
-          <InputComponent />
           <ResponseComponent ws={ws} setWs={setWs} newWs={newWs} setNewWs={setNewWs} countdown={countdown} setCountdown={setCountdown} responseData={responseData} setResponseData={setResponseData}/>
           
         </>
