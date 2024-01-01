@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import ResponseComponent from "./ResponseComponent";
 import LoginComponent from "./LoginComponent";
-import InputComponent from "./InputComponent";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./index.css";
 import Header from "./Header";
@@ -16,6 +15,8 @@ function App() {
   const [shouldReconnect, setShouldReconnect] = useState(true);
   const [responseData, setResponseData] = useState([]);
   const [countdown, setCountdown] = useState(30); // Adjust as needed
+  const [userInput, setUserInput] = useState("");
+
 
   const connectWebSocket = useCallback(() => {
     if (!shouldReconnect) return;
@@ -91,7 +92,7 @@ function App() {
       ) : (
         <>
           <Header />
-          <ResponseComponent ws={ws} setWs={setWs} newWs={newWs} setNewWs={setNewWs} countdown={countdown} setCountdown={setCountdown} responseData={responseData} setResponseData={setResponseData}/>
+          <ResponseComponent userInput={userInput} ws={ws} setWs={setWs} newWs={newWs} setNewWs={setNewWs} countdown={countdown} setCountdown={setCountdown} responseData={responseData} setResponseData={setResponseData}/>
           
         </>
       )}

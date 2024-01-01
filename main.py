@@ -20,25 +20,60 @@ file_path = os.path.join("response.mp3")  # Defines the file path for saving aud
 client = OPENAI_AUTH_TOKEN  # Sets the client variable to the OpenAI authentication token
 
 # Define an asynchronous function to handle WebSocket connections and interactions
-async def websocket_handler(websocket, path):
-    try:
-        origin = websocket.request_headers.get('Origin')  # Gets the origin of the WebSocket request
-        if origin is not None and origin_allowed(origin):  # Checks if the origin is allowed
-            app.set_start_websocket(websocket)  # Sets the WebSocket connection in the application
-            async for message in websocket:  # Iterates over incoming messages asynchronously
-                print(f"\nRECEIVED MESSAGE: {message}\n")
-                if message == "start_recording":  # Checks if the message is to start recording
-                    print("Starting recording...")
-                    await app.start_recording()  # Starts audio recording
-                    await app.handle_speech_interaction()  # Handles the speech interaction
-                    print("Recording complete.")
+# async def websocket_handler(websocket, path):
+#     try:
+#         origin = websocket.request_headers.get('Origin')  # Gets the origin of the WebSocket request
+#         if origin is not None and origin_allowed(origin):  # Checks if the origin is allowed
+#             app.set_start_websocket(websocket)  # Sets the WebSocket connection in the application
+#             async for message in websocket:  # Iterates over incoming messages asynchronously
+#                 print(f"\nRECEIVED MESSAGE: {message}\n")
+#                 if message == "start_recording":  # Checks if the message is to start recording
+#                     print("Starting recording...")
+#                     await app.start_recording()  # Starts audio recording
+#                     await app.handle_speech_interaction()  # Handles the speech interaction
+#                     print("Recording complete.")
                     
                 
+#         else:
+#             await websocket.close()  # Closes the WebSocket connection if the origin is not allowed
+#     except Exception as e:
+#         if websocket.state == State.OPEN:
+#             await websocket.close()  # Closes the WebSocket connection on exception
+
+async def websocket_handler(websocket, path):
+    try:
+        origin = websocket.request_headers.get('Origin')
+        if origin is not None and origin_allowed(origin):
+            app.set_start_websocket(websocket)
+            async for message in websocket:
+                if not message:
+                    print("Empty message received")
+                    continue 
+
+                try:
+                    message_data = json.loads(message)
+                    print(f"\nRECEIVED MESSAGE: {message_data}\n")
+
+                    command = message_data.get("command")
+                    user_input = message_data.get("userInput", "")
+
+                    if command == "start_recording":
+                        print("Starting recording with user input:", user_input)
+                        app.user_input= user_input
+                        await app.start_recording()
+                        # await app.handle_speech_interaction(user_input)
+                        print("Recording complete.")
+
+                except json.JSONDecodeError as e:
+                    print(f"JSON Decode Error: {e}")
+
         else:
-            await websocket.close()  # Closes the WebSocket connection if the origin is not allowed
+            await websocket.close()
+
     except Exception as e:
+        print(f"Exception in websocket handler: {e}")
         if websocket.state == State.OPEN:
-            await websocket.close()  # Closes the WebSocket connection on exception
+            await websocket.close()
 
 async def second_websocket_handler(websocket, path):
     try: 
@@ -85,7 +120,6 @@ class AudioManager:
         self.recognizer = sr.Recognizer()  # Creates a Recognizer instance for speech recognition
         self.main_app = main_app  # Stores the reference to the main application
     
-    # Define a method to handle the speech interaction.
     # Define a method to start audio recording.
     async def start_recording(self):
         self.is_recording = True  # Sets the recording flag to True
@@ -121,7 +155,6 @@ class AudioManager:
                     print("No audio detected within the timeout. Still listening...")
                 except Exception as e:
                     print(f"An error occurred: {e}")
-
         print("Recording stopped.")
 
     def stop_recording(self):
@@ -188,11 +221,13 @@ class OpenAIChatbot:
     def set_start_websocket(self, websocket):
         self.websocket = websocket  # Sets the WebSocket connection
 
-    async def get_response(self, message):
+    async def get_response(self, message, user_input):
         completion = await asyncio.to_thread(
                 openai.ChatCompletion.create,
                 model="gpt-4",
-                messages=[{"role": "system", "content": ""}, {"role": "user", "content": message}])  # Sends the message to OpenAI and gets a response
+                messages=[
+                    {"role": "system", "content": user_input},
+                    {"role": "user", "content": message}])  # Sends the message to OpenAI and gets a response
         
         response_text = completion.choices[0].message.content  # Extracts the content of the response
         # formatted_message = f"PROMPT: {message}\nRESPONSE: {response_text}"
@@ -207,7 +242,7 @@ class MainApplication:
         self.chatbot = OpenAIChatbot(OPENAI_AUTH_TOKEN)  # Set up the chatbot with OpenAI token.
         self.start_websocket = None    
         self.stop_websocket = None             # Initialize websocket to None.
-
+        self.user_input= None
     def set_start_websocket(self, websocket):
         # Set and share the WebSocket connection.
         self.start_websocket = websocket
@@ -228,7 +263,7 @@ class MainApplication:
         # Handle interaction after speech is recognized.
         if recognized_text:
             # If there is recognized text, process it.
-            response = await self.chatbot.get_response(recognized_text)  # Get response from chatbot.
+            response = await self.chatbot.get_response(recognized_text, self.user_input)  # Get response from chatbot.
 
             if response:
                 # If a response is received, prepare and send it.

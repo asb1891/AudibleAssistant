@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import InputComponent from "./InputComponent";
 import "./index.css";
 
-function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown, responseData, setResponseData }) {
+function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown, responseData, setResponseData, userInput }) {
 
   const [isRecording, setIsRecording] = useState(false);
   const [showMicOffMessage, setShowMicOffMessage] = useState(false);
-
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     let timer;
@@ -20,12 +19,21 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
     return () => clearTimeout(timer);
   }, [countdown, setCountdown, isRecording]);
 
+
+  const handleChange = (e) => {
+    setInput(e.target.value);
+    
+   }; // Updating state in App.js
+
   const startRecording = () => {
-    console.log("startRecording function called");
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send("start_recording");
-      setIsRecording(true);
-      setShowMicOffMessage(false); // Reset the message display when recording starts
+      const message = JSON.stringify({
+        command: "start_recording",
+        userInput: input
+      });
+
+      ws.send(message);
+      // Additional logic for starting recording
     } else {
       console.log("WebSocket is not connected.");
     }
@@ -114,6 +122,7 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
   const clearChat = () => {
     setResponseData([]);
   };
+
   return (
     <div className="flex justify-center items-center h-screen your-class min-h-screen w-fulla">
       
@@ -157,7 +166,21 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
               Mic Off
             </button>
           </div>
-          <InputComponent />
+          <div>
+      <label className="form-control w-full max-w-xs">
+        <div className="label">
+          <span className="label-text">Write how you want AI to respond</span>
+          <span className="label-text-alt"></span>
+        </div>
+        <input
+          type="text"
+          value={input}
+          onChange={handleChange}
+          placeholder="Type Here"
+          className="text-sm input input-bordered w-full max-w-lg"
+        />
+      </label>
+    </div>
         </div>
 
         <div className="mockup-window border-solid border-2 border-zinc-700 bg-base-300 custom-window w-full p-4 overflow-y-auto">
@@ -217,6 +240,6 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
       </div>
     </div>
   );
-}
+          };
 
 export default ResponseComponent;
