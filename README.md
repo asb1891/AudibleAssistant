@@ -1,5 +1,7 @@
-[![Alt text for the video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)]
+[![Alt text for the video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)
 
+
+-Play at 1.25x speed 
 
 Audible Assistant: 
 
