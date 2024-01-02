@@ -1,4 +1,5 @@
-[![Alt text for the video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)
+[![Thumbnail of my YouTube video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)](https://youtu.be/BNQ4EDFuDaw "Watch the Video")
+
 
 
 -Play at 1.25x speed 
