@@ -1,3 +1,5 @@
+[![Alt text for the video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)]
+
 
 Audible Assistant: 
 
