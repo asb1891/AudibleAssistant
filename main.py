@@ -204,7 +204,7 @@ class OpenAIChatbot:
     async def get_response(self, message, user_input):
         completion = await asyncio.to_thread(
                 openai.ChatCompletion.create,
-                model="gpt-5",
+                model="gpt-4",
                 messages=[
                     {"role": "system", "content": user_input},
                     {"role": "user", "content": message}])  # Sends the message to OpenAI and gets a response
