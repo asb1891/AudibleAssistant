@@ -72,6 +72,12 @@
 .bg-custom-700 {
   background-color: #374151;
 }
+.input-window {
+  max-width: 500px;
+  overflow: auto;
+  overflow-y: auto;
+  position: relative;
+}
 
 .chat-bubble-secondary {
   background-color: #fefcbf; /* Different color */

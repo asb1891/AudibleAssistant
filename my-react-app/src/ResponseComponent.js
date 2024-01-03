@@ -3,9 +3,9 @@ import "./index.css";
 
 function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown, responseData, setResponseData, userInput }) {
 
-  const [isRecording, setIsRecording] = useState(false);
-  const [showMicOffMessage, setShowMicOffMessage] = useState(false);
-  const [input, setInput] = useState("");
+  const [isRecording, setIsRecording] = useState(false); // Set to true when recording is active
+  const [showMicOffMessage, setShowMicOffMessage] = useState(false); // Set to true when mic is off
+  const [input, setInput] = useState(""); // State for the user's input
 
   useEffect(() => {
     let timer;
@@ -19,12 +19,13 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
     return () => clearTimeout(timer);
   }, [countdown, setCountdown, isRecording]);
 
-
+  // Handle user text input
   const handleChange = (e) => {
     setInput(e.target.value);
     
    }; // Updating state in App.js
 
+   // function to send message into the websocket
   const startRecording = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
       const message = JSON.stringify({
@@ -38,7 +39,7 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
       console.log("WebSocket is not connected.");
     }
   };
-
+  //sending message to websocket to stop recording
   const stopRecording = () => {
     console.log("stopRecording function called");
     if (newWs && newWs.readyState === WebSocket.OPEN) {
@@ -124,7 +125,7 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
   };
 
   return (
-    <div className="flex justify-center items-center h-screen your-class min-h-screen w-fulla">
+    <div className="flex justify-center items-center h-screen your-class min-h-screen w-full">
       
       <div className="flex flex-col items-center gap-4">
         {/* Button and Countdown Container */}
@@ -167,9 +168,9 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
             </button>
           </div>
           <div>
-      <label className="form-control w-full max-w-xs">
+      <label className="form-control w-full max-w-xl">
         <div className="label">
-          <span className="label-text">Write how you want AI to respond</span>
+          <span className="label-text">How Do You Want AI To Respond?</span>
           <span className="label-text-alt"></span>
         </div>
         <input
@@ -177,13 +178,13 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
           value={input}
           onChange={handleChange}
           placeholder="Type Here"
-          className="text-sm input input-bordered w-full max-w-lg"
+          className="input input-bordered w-full max-w-xl"
         />
       </label>
     </div>
         </div>
 
-        <div className="mockup-window border-solid border-2 border-zinc-700 bg-base-300 custom-window w-full p-4 overflow-y-auto">
+        <div className="mockup-window border-solid border-2 border-zinc-700 bg-base-300 custom-window w-full p-4 overflow-y-auto max-h-96">
           {/* Container for messages */}
           {responseData.length > 0 ? (
             responseData.map(({ prompt, response }, index) => (

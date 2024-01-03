@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useState } from "react";
 
-function InputComponent() {
+function InputComponent({onUserInputChange}) {
+  const [input, setInput] = useState("");
 
-
-    return (
-        // <div className="flex justify-left items-left h-screen your-class">
-        <div>
-        <label className="form-control w-full max-w-xs">
-  <div className="label">
-    <span className="label-text">Write how you want AI to respond</span>
-    <span className="label-text-alt"></span>
-  </div>
-  <input type="text" placeholder="Type Here" className="text-sm input input-bordered w-full max-w-xs" />
-  {/* <div className="label">
-    <span className="label-text-alt">Bottom Left label</span>
-    <span className="label-text-alt">Bottom Right label</span>
-  </div> */}
-</label>
+//   const handleChange = (e) => {
+//     setInput(e.target.value);
+//     onUserInputChange(e.target.value); // Updating state in App.js
+//   };
+  return (
+    <div>
+      {/* <label className="form-control w-full max-w-xs">
+        <div className="label">
+          <span className="label-text">Write how you want AI to respond</span>
+          <span className="label-text-alt"></span>
         </div>
-    );
+        <input
+          type="text"
+          value={input}
+          onChange={handleChange}
+          placeholder="Type Here"
+          className="text-sm input input-bordered w-full max-w-xs"
+        />
+      </label> */}
+    </div>
+  );
 }
 
 export default InputComponent;

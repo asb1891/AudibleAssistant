@@ -24,7 +24,7 @@ const Directions = () => {
                 To turn on the microphone, click the "Start Recording" button. This will allow OpenAI to begin listening for a prompt.
               </li>
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
-                If no speech is deteced for 30 seconds, the microphone will automatically turn off.
+                If no speech is deteced for 45 seconds, the microphone will automatically turn off.
               </li>
               <li className="chat-bubble chat-bubble-secondary bg-yellow-300 p-3 rounded-lg max-w-xs mb-2">
                 To turn off the microphone, click the "Stop Recording" button.

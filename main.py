@@ -19,26 +19,6 @@ openai.api_key = OPENAI_AUTH_TOKEN  # Sets the OpenAI API key for authentication
 file_path = os.path.join("response.mp3")  # Defines the file path for saving audio responses
 client = OPENAI_AUTH_TOKEN  # Sets the client variable to the OpenAI authentication token
 
-# Define an asynchronous function to handle WebSocket connections and interactions
-# async def websocket_handler(websocket, path):
-#     try:
-#         origin = websocket.request_headers.get('Origin')  # Gets the origin of the WebSocket request
-#         if origin is not None and origin_allowed(origin):  # Checks if the origin is allowed
-#             app.set_start_websocket(websocket)  # Sets the WebSocket connection in the application
-#             async for message in websocket:  # Iterates over incoming messages asynchronously
-#                 print(f"\nRECEIVED MESSAGE: {message}\n")
-#                 if message == "start_recording":  # Checks if the message is to start recording
-#                     print("Starting recording...")
-#                     await app.start_recording()  # Starts audio recording
-#                     await app.handle_speech_interaction()  # Handles the speech interaction
-#                     print("Recording complete.")
-                    
-                
-#         else:
-#             await websocket.close()  # Closes the WebSocket connection if the origin is not allowed
-#     except Exception as e:
-#         if websocket.state == State.OPEN:
-#             await websocket.close()  # Closes the WebSocket connection on exception
 
 async def websocket_handler(websocket, path):
     try:
@@ -147,8 +127,8 @@ class AudioManager:
                         print("done handle speech ")
 
                     # Check if the time since the last speech exceeds 60 seconds (1 minute)
-                    if time.time() - last_speech_time > 30:
-                        print("No speech detected for 30 seconds, stopping recording.")
+                    if time.time() - last_speech_time > 45:
+                        print("No speech detected for 45 seconds, stopping recording.")
                         self.is_recording = False  # Stop recording
 
                 except sr.WaitTimeoutError:
@@ -224,7 +204,7 @@ class OpenAIChatbot:
     async def get_response(self, message, user_input):
         completion = await asyncio.to_thread(
                 openai.ChatCompletion.create,
-                model="gpt-4",
+                model="gpt-5",
                 messages=[
                     {"role": "system", "content": user_input},
                     {"role": "user", "content": message}])  # Sends the message to OpenAI and gets a response
