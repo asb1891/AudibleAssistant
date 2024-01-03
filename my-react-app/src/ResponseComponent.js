@@ -34,6 +34,8 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
       });
 
       ws.send(message);
+      setIsRecording(true);
+      setShowMicOffMessage(false);
       // Additional logic for starting recording
     } else {
       console.log("WebSocket is not connected.");
