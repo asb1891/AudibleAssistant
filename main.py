@@ -10,9 +10,10 @@ import openai  # Imports the OpenAI library for interacting with OpenAI's APIs
 import json  # Imports the json library for JSON parsing and encoding
 import threading  # Imports the threading library for concurrent execution
 import logging  # Imports the logging library for logging
-from keys import OPENAI_AUTH_TOKEN  # Imports the OpenAI authentication token from a separate keys module
+from keys import OPENAI_AUTH_TOKEN, AWS_ACCESS_KEY, AWS_SECRET_KEY  # Imports the OpenAI authentication token from a separate keys module
 import time
 from websockets.legacy.protocol import State
+import boto3  # Imports the boto3 library for Amazon S3 storage
 
 openai.api_key = OPENAI_AUTH_TOKEN  # Sets the OpenAI API key for authentication
 
@@ -167,19 +168,40 @@ class AudioManager:
             playsound.playsound(file_path)  # Plays the audio file located at the specified file path
         except Exception as e:
             print(f"Error in playing audio: {e}")  # Logs an error message if audio playback fails
-        
 class TextToSpeech:
-    def __init__(self, lang='en'):
-        # Initialize the TextToSpeech with a language setting
-        self.lang = lang  # Sets the language for text-to-speech conversion
+    def __init__(self, voice='Joanna', region='us-east-1'):
+        self.voice = voice
+        self.client = boto3.client(
+            'polly',
+            aws_access_key_id=AWS_ACCESS_KEY,  # Assuming AWS_ACCESS_KEY is defined
+            aws_secret_access_key=AWS_SECRET_KEY,  # Assuming AWS_SECRET_KEY is defined
+            region_name=region
+        )
 
     def text_to_speech(self, text, file_path):
         try:
-            speech = gTTS(text=text, lang=self.lang, slow=False, tld="us")  # Converts the text to speech using gTTS
-            speech.save(file_path)  # Saves the speech audio to the specified file path
+            response = self.client.synthesize_speech(
+                Text=text,
+                OutputFormat='mp3',
+                VoiceId=self.voice
+            )
+            with open(file_path, 'wb') as file:
+                file.write(response['AudioStream'].read())
             print(f"Audio file saved at {file_path}")
         except Exception as e:
-            print(f"Error in saving audio file: {e}")  # Logs an error message if saving the audio file fails
+            print(f"Error in saving audio file: {e}")
+# class TextToSpeech:
+#     def __init__(self, lang='en'):
+#         # Initialize the TextToSpeech with a language setting
+#         self.lang = lang  # Sets the language for text-to-speech conversion
+
+#     def text_to_speech(self, text, file_path):
+#         try:
+#             speech = gTTS(text=text, lang=self.lang, slow=False, tld="us")  # Converts the text to speech using gTTS
+#             speech.save(file_path)  # Saves the speech audio to the specified file path
+#             print(f"Audio file saved at {file_path}")
+#         except Exception as e:
+#             print(f"Error in saving audio file: {e}")  # Logs an error message if saving the audio file fails
 
 def save_to_json(new_data, file_path):
     try:
