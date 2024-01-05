@@ -13,7 +13,7 @@ Welcome to Audible Assistant, a cutting-edge full-stack application that brings 
 Features: 
 
 Speech Recognition: Utilizing Google's speech recognition to understand your spoken words.
-Text to Speech: Bringing chatbot responses to life with audible speech.
+Text to Speech: Bringing chatbot responses to life with audible speech using Amazon's Polly Text-to-Speech service.
 OpenAI Chatbot: Powered by OpenAI's GPT-4 for smart, interactive conversations.
 
 Required Python Dependencies:
@@ -29,6 +29,7 @@ Required Python Dependencies:
     flask-migrate 
     importlib-resources 
     flask-restful 
+    boto3
 
     
 
