@@ -20,7 +20,7 @@ openai.api_key = OPENAI_AUTH_TOKEN  # Sets the OpenAI API key for authentication
 file_path = os.path.join("response.mp3")  # Defines the file path for saving audio responses
 client = OPENAI_AUTH_TOKEN  # Sets the client variable to the OpenAI authentication token
 
-
+#function to hanlde websocket messages from the front end
 async def websocket_handler(websocket, path):
     try:
         origin = websocket.request_headers.get('Origin')
@@ -56,6 +56,7 @@ async def websocket_handler(websocket, path):
         if websocket.state == State.OPEN:
             await websocket.close()
 
+#function to hanlde second websocket, messages from the front end
 async def second_websocket_handler(websocket, path):
     try: 
         origin = websocket.request_headers.get('Origin')
@@ -87,12 +88,14 @@ def start_websocket_server():
     loop.run_until_complete(start_server)  # Runs the server until it is complete
     loop.run_forever()  # Runs the event loop forever
 
+#Function to start the second WebSocket server in a separate thread
 def start_second_websocket_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     start_second_server = websockets.serve(second_websocket_handler, "localhost", 5678)
     loop.run_until_complete(start_second_server)
     loop.run_forever()
+
 class AudioManager:
     def __init__(self, main_app):
         # Initialize the AudioManager instance with default values.
@@ -138,6 +141,7 @@ class AudioManager:
                     print(f"An error occurred: {e}")
         print("Recording stopped.")
 
+#Method to stop the audio recording
     def stop_recording(self):
         # Set the 'is_recording' flag to False, which will end the recording loop.
         with sr.Microphone():  # Opens the microphone as the audio source
@@ -192,18 +196,6 @@ class TextToSpeech:
             print(f"Audio file saved at {file_path}")
         except Exception as e:
             print(f"Error in saving audio file: {e}")
-# class TextToSpeech:
-#     def __init__(self, lang='en'):
-#         # Initialize the TextToSpeech with a language setting
-#         self.lang = lang  # Sets the language for text-to-speech conversion
-
-#     def text_to_speech(self, text, file_path):
-#         try:
-#             speech = gTTS(text=text, lang=self.lang, slow=False, tld="us")  # Converts the text to speech using gTTS
-#             speech.save(file_path)  # Saves the speech audio to the specified file path
-#             print(f"Audio file saved at {file_path}")
-#         except Exception as e:
-#             print(f"Error in saving audio file: {e}")  # Logs an error message if saving the audio file fails
 
 def save_to_json(new_data, file_path):
     try:
@@ -217,6 +209,7 @@ def save_to_json(new_data, file_path):
     with open(file_path, 'w') as file:  # Opens the file in write mode
         json.dump(data, file)  # Writes the updated data back to the file
 
+#OPENAI Class to handle prompts and responses 
 class OpenAIChatbot:
     def __init__(self, OPENAI_AUTH_TOKEN):
         self.api_key = OPENAI_AUTH_TOKEN  # Sets the API key for OpenAI
@@ -238,6 +231,8 @@ class OpenAIChatbot:
         combined_message = {"prompt": message, "response": response_text}  # Combines the prompt and response into a single message
         save_to_json(combined_message, "response.json")  # Saves the combined message to a JSON file
         return response_text  # Returns the response text
+    
+#Main Application Class to handle application logic running 
 class MainApplication:
     def __init__(self, OPENAI_AUTH_TOKEN):
         # Initialize the MainApplication with necessary components.
@@ -285,6 +280,7 @@ class MainApplication:
         # Run the main application.
         print("MainApplication is running. Waiting for WebSocket connections...")  # Log the running status.
 
+#Main loop of the application
 async def main_loop():
     # Define the main loop of the application.
     try:
