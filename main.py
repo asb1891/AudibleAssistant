@@ -169,8 +169,9 @@ class AudioManager:
         except Exception as e:
             print(f"Error in playing audio: {e}")  # Logs an error message if audio playback fails
 class TextToSpeech:
-    def __init__(self, voice='Joanna', region='us-east-1'):
+    def __init__(self, voice='Joanna', engine='neural', region='us-east-1'):
         self.voice = voice
+        self.engine = engine
         self.client = boto3.client(
             'polly',
             aws_access_key_id=AWS_ACCESS_KEY,  # Assuming AWS_ACCESS_KEY is defined
@@ -183,6 +184,7 @@ class TextToSpeech:
             response = self.client.synthesize_speech(
                 Text=text,
                 OutputFormat='mp3',
+                Engine=self.engine,
                 VoiceId=self.voice
             )
             with open(file_path, 'wb') as file:
