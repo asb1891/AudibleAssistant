@@ -7,7 +7,10 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  Dimensions
 } from "react-native";
+
+const screenWidth = Dimensions.get('window').width;
 function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, setResponseData }) {
 
   const [isRecording, setIsRecording] = useState(false);
@@ -102,13 +105,13 @@ function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, s
         {/* Container for messages */}
         {responseData.length > 0 ? (
           responseData.map(({ prompt, response }, index) => (
-            <View key={index} style={styles.messageBubble}>
-              <Text>{prompt}</Text>
-              <Text>{response}</Text>
+            <View key={index} >
+              <Text style={styles.messageBubbleSent}>{prompt}</Text>
+              <Text style={styles.messageBubbleReceived}>{response}</Text>
             </View>
           ))
         ) : (
-          <Text>Instructions or placeholder text here</Text>
+          <Text style={styles.messageBubbleSent}>Placeholder Text</Text>
         )}
       </ScrollView>
 
@@ -154,4 +157,36 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "white",
   },
-});
+  messagesContainer: {
+    marginTop: 12,
+    
+  },
+  messageBubbleSent: {
+    padding: 10,
+    paddingHorizontal: 15,
+    marginBottom: 12,
+    marginTop: 12,
+    marginLeft: 16,
+    marginRight: 10,
+    lineHeight: 15,
+    borderRadius: 4,
+    color: 'white',
+    backgroundColor: '#0B93F6',
+    alignSelf: 'flex-end',
+    maxWidth: screenWidth * 0.7,
+  },
+  messageBubbleReceived: {
+    padding: 10,
+    paddingHorizontal: 15,
+    marginBottom: 12,
+    marginTop: 12,
+    marginLeft: 10,
+    marginRight: 16,
+    lineHeight: 15,
+    borderRadius: 4,
+    color: 'white',
+    backgroundColor: '#0B93F6',
+    alignSelf: 'flex-start',
+  },
+  },
+);
