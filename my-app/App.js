@@ -13,7 +13,7 @@ function App () {
   const connectWebSocket = useCallback(() => {
     if (!shouldReconnect) return
 
-    const newWsInstance = new WebSocket("ws://localhost:6789")
+    const newWsInstance = new WebSocket("ws://192.1.92:6789")
 
     newWsInstance.onopen = () => {
       console.log("WebSocket Connected");
@@ -30,7 +30,7 @@ function App () {
     newWsInstance.onclose = () => {
       console.log("WebSocket closed, attempting to reconnect...");
       if (shouldReconnect) {
-        setTimeout(connectWebSocket, 3000) // Reconnect after 3 seconds
+        setTimeout(connectWebSocket, 5000) // Reconnect after 3 seconds
       }
     }
 
@@ -48,7 +48,7 @@ function App () {
   const connectSecondWebSocket = useCallback(() => {
     if (!shouldReconnect) return
 
-    const secondWSInstance = new WebSocket("ws://localhost:5678")
+    const secondWSInstance = new WebSocket("ws://192.168.1.92:5678")
 
     secondWSInstance.onopen = () => {
       console.log("Second WS Connected to Server")
@@ -57,7 +57,7 @@ function App () {
     secondWSInstance.onclose = () => {
       console.log("Second WebSocket closed, attempting to reconnect...")
       if (shouldReconnect) {
-        setTimeout(connectSecondWebSocket, 3000) // Reconnect after 3 seconds
+        setTimeout(connectSecondWebSocket, 5000) // Reconnect after 3 seconds
       }
     }
 
