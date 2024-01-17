@@ -111,10 +111,12 @@ function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, s
             </View>
           ))
         ) : (
-          <Text style={styles.messageBubbleSent}>Placeholder Text</Text>
+          <>
+          <Text style={styles.messageBubbleSent}>Welcome to Audible Assistant!</Text>
+          <Text style={styles.messageBubbleReceived}>Turn on the microphone to begin your conversation!</Text>
+          </>
         )}
       </ScrollView>
-
       <View style={styles.bottomButtons}>
         <Button onPress={clearChat} title="Clear Chat" color="orange" />
         {/* Add other buttons */}
@@ -129,25 +131,29 @@ export default ResponseComponent
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-between", // Changed to flex-start to align children to the top
+    backgroundColor: '#fff', // Assuming a white background
+    paddingTop: 20, // Add padding to avoid overlapping with the status bar
   },
   image: {
     width: 50,
     height: 50,
     justifyContent: "center",
     alignContent: "center",
-    // other styles
+    alignItems: "center",
+    marginLeft: 175,
   },
   buttonsRow: {
     flexDirection: "row",
     justifyContent: "space-around",
+    marginBottom: 12,
   },
   bottomButtons: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
+    marginLeft: 115,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "black",
@@ -156,37 +162,59 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
+    maxWidth: screenWidth * 0.4,
+    marginTop: 10,
   },
   messagesContainer: {
-    marginTop: 12,
-    
+    flex: 1, // Changed to 1 to take remaining space
+    paddingHorizontal: 10, // Add horizontal padding
+    marginTop: 10,
+    backgroundColor: '#e9967a',
+    borderRadius: 4,
+    marginVertical: 10,
+    height: 500,
   },
   messageBubbleSent: {
+    fontFamily: 'Arial Hebrew',
     padding: 10,
     paddingHorizontal: 15,
     marginBottom: 12,
-    marginTop: 12,
+    marginTop: 14,
     marginLeft: 16,
     marginRight: 10,
     lineHeight: 15,
-    borderRadius: 4,
+    borderRadius: 1,
     color: 'white',
     backgroundColor: '#0B93F6',
     alignSelf: 'flex-end',
-    maxWidth: screenWidth * 0.7,
+    maxWidth: screenWidth * 0.75,
+    marginHorizontal: 10,
   },
   messageBubbleReceived: {
+    fontFamily: 'Arial Hebrew',
     padding: 10,
     paddingHorizontal: 15,
     marginBottom: 12,
     marginTop: 12,
-    marginLeft: 10,
+    marginLeft: 1,
     marginRight: 16,
     lineHeight: 15,
     borderRadius: 4,
     color: 'white',
-    backgroundColor: '#0B93F6',
+    backgroundColor: '#696969',
     alignSelf: 'flex-start',
+    maxWidth: screenWidth * 0.75,
+    marginHorizontal: 10,
   },
+  innerContainer: {
+    flex: 1,
+    paddingHorizontal: 10, // Add horizontal padding
+  },
+  input: {
+    backgroundColor: 'lightgrey',
+    borderRadius: 4,
+    maxHeight: 75,
+    padding: 10,
+  }
   },
 );
