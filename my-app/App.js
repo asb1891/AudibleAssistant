@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   titleText: {
-    fontSize: 18,
+    fontFamily:'Arial Rounded MT Bold',
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10
