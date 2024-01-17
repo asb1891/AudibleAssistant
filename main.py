@@ -19,7 +19,7 @@ openai.api_key = OPENAI_AUTH_TOKEN  # Sets the OpenAI API key for authentication
 
 file_path = os.path.join("response.mp3")  # Defines the file path for saving audio responses
 client = OPENAI_AUTH_TOKEN  # Sets the client variable to the OpenAI authentication token
-
+allowed_origins = ["http://localhost:3000", "http://192.168.1.92:19000"] 
 #function to hanlde websocket messages from the front end
 async def websocket_handler(websocket, path):
     try:
@@ -77,8 +77,8 @@ async def second_websocket_handler(websocket, path):
 
 # Define a function to check if the origin of the WebSocket request is allowed
 def origin_allowed(origin):
-    allowed_origins = ["http://localhost:3000"]  # List of allowed origins
-    return origin in allowed_origins  # Returns True if the origin is in the allowed list
+    return True # List of allowed origins
+    # return origin in allowed_origins  # Returns True if the origin is in the allowed list
 
 # Define a function to start the WebSocket server in a separate thread
 def start_websocket_server():
