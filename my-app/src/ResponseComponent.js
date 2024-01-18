@@ -5,7 +5,7 @@ import {
   Button,
   TextInput,
   Image,
-  ScrollView,
+  FlatList,
   StyleSheet,
   Dimensions
 } from "react-native";
@@ -88,35 +88,36 @@ function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, s
           )
         )}
         {/* Buttons */}
-        <View style={styles.buttonsRow}>
+        <View style={[styles.buttonsRow, styles.topButtons]}>
           <Button onPress={handleButtonClick} title="Mic On" color="blue" />
-          <Button onPress={stopRecording} title="Mic Off" color="orange" />
+          <Button onPress={stopRecording} title="Mic Off" color="red" />
         </View>
 
         <TextInput
           style={styles.input}
           onChangeText={handleChange}
           value={input}
-          placeholder="Type Here"
+          placeholder="Customize OpenAI -> ex: Talk to me like I'm a 3 year old"
         />
       </View>
-
-      <ScrollView style={styles.messagesContainer}>
-        {/* Container for messages */}
-        {responseData.length > 0 ? (
-          responseData.map(({ prompt, response }, index) => (
-            <View key={index} >
-              <Text style={styles.messageBubbleSent}>{prompt}</Text>
-              <Text style={styles.messageBubbleReceived}>{response}</Text>
-            </View>
-          ))
-        ) : (
-          <>
-          <Text style={styles.messageBubbleSent}>Welcome to Audible Assistant!</Text>
-          <Text style={styles.messageBubbleReceived}>Turn on the microphone to begin your conversation!</Text>
-          </>
-        )}
-      </ScrollView>
+      <FlatList
+  data={responseData}
+  keyExtractor={(item, index) => index.toString()}
+  renderItem={({ item }) => (
+    <View>
+      <Text style={styles.messageBubbleSent}>{item.prompt}</Text>
+      <Text style={styles.messageBubbleReceived}>{item.response}</Text>
+    </View>
+  )}
+  ListEmptyComponent={() => (
+    <>
+      <Text style={styles.messageBubbleSent}>Welcome to Audible Assistant!</Text>
+      <Text style={styles.messageBubbleReceived}>Turn on the microphone to begin your conversation!</Text>
+      <Text style={styles.messageBubbleSent}>You can customize how you want OpenAI to respond by setting it up above!</Text>
+    </>
+  )}
+  style={styles.messagesContainer}
+/>
       <View style={styles.bottomButtons}>
         <Button onPress={clearChat} title="Clear Chat" color="orange" />
         {/* Add other buttons */}
@@ -133,7 +134,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between", // Changed to flex-start to align children to the top
     backgroundColor: '#fff', // Assuming a white background
-    paddingTop: 20, // Add padding to avoid overlapping with the status bar
   },
   image: {
     width: 50,
@@ -165,8 +165,25 @@ const styles = StyleSheet.create({
     maxWidth: screenWidth * 0.4,
     marginTop: 10,
   },
+  topButtons: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 32,
+    marginLeft: 115,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "lightgrey",
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+    maxWidth: screenWidth * 0.4,
+    marginTop: 10,
+  },
+
   messagesContainer: {
-    flex: 1, // Changed to 1 to take remaining space
     paddingHorizontal: 10, // Add horizontal padding
     marginTop: 10,
     backgroundColor: '#e9967a',
@@ -174,14 +191,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     height: 500,
   },
+  scrollViewContent: {
+    flexGrow: 1,
+  },
   messageBubbleSent: {
     fontFamily: 'Arial Hebrew',
     padding: 10,
     paddingHorizontal: 15,
     marginBottom: 12,
-    marginTop: 14,
+    marginTop: 24,
     marginLeft: 16,
-    marginRight: 10,
+    marginRight: 2,
     lineHeight: 15,
     borderRadius: 1,
     color: 'white',
@@ -194,7 +214,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial Hebrew',
     padding: 10,
     paddingHorizontal: 15,
-    marginBottom: 12,
+    marginBottom: 4,
     marginTop: 12,
     marginLeft: 1,
     marginRight: 16,
@@ -207,7 +227,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   innerContainer: {
-    flex: 1,
     paddingHorizontal: 10, // Add horizontal padding
   },
   input: {
