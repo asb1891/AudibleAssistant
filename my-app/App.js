@@ -13,7 +13,7 @@ function App () {
   const connectWebSocket = useCallback(() => {
     if (!shouldReconnect) return
 
-    const newWsInstance = new WebSocket("ws://192.1.92:6789")
+    const newWsInstance = new WebSocket("ws://192.168.1.92:6789")
 
     newWsInstance.onopen = () => {
       console.log("WebSocket Connected");
@@ -74,7 +74,6 @@ function App () {
 
   return (
   <SafeAreaView style={styles.container}>
-    <ScrollView>
     <View style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.titleText}>Audible Assistant</Text>
@@ -95,26 +94,25 @@ function App () {
         />
       </>
   </View>
-  </ScrollView>
   </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   main: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+
   },
   titleText: {
+    flex: 1,
     fontFamily:'Arial Rounded MT Bold',
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 10
+    marginVertical: 10,
+    paddingVertical: 30,
   }
   // Add other styles as needed
 })
