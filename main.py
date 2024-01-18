@@ -19,7 +19,7 @@ openai.api_key = OPENAI_AUTH_TOKEN  # Sets the OpenAI API key for authentication
 
 file_path = os.path.join("response.mp3")  # Defines the file path for saving audio responses
 client = OPENAI_AUTH_TOKEN  # Sets the client variable to the OpenAI authentication token
-allowed_origins = ["http://localhost:3000", "http://192.168.1.92:19000"] 
+allowed_origins = ["http://localhost:3000", "http://192.168.1.92:8081"] 
 #function to hanlde websocket messages from the front end
 async def websocket_handler(websocket, path):
     try:
@@ -84,7 +84,7 @@ def origin_allowed(origin):
 def start_websocket_server():
     loop = asyncio.new_event_loop()  # Creates a new asyncio event loop
     asyncio.set_event_loop(loop)  # Sets the created event loop as the current loop
-    start_server = websockets.serve(websocket_handler, "localhost", 6789)  # Starts the WebSocket server
+    start_server = websockets.serve(websocket_handler, "192.168.1.92", 6789)  # Starts the WebSocket server
     loop.run_until_complete(start_server)  # Runs the server until it is complete
     loop.run_forever()  # Runs the event loop forever
 
@@ -92,7 +92,7 @@ def start_websocket_server():
 def start_second_websocket_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    start_second_server = websockets.serve(second_websocket_handler, "localhost", 5678)
+    start_second_server = websockets.serve(second_websocket_handler, "192.168.1.92", 5678)
     loop.run_until_complete(start_second_server)
     loop.run_forever()
 
@@ -266,7 +266,7 @@ class MainApplication:
 
             if response:
                 # If a response is received, prepare and send it.
-                full_message = f"PROMPT: {recognized_text}\nRESPONSE: {response}"  # Format message.
+                full_message = f"{recognized_text}\n {response}"  # Format message.
                 if self.start_websocket and not self.start_websocket.closed:
                     await self.start_websocket.send(full_message)  # Send the message over the websocket.
 
