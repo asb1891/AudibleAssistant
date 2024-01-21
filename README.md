@@ -1,3 +1,5 @@
+<img src="my-app/assets/reactnative.png" width="200" height="400">
+
 <p align="center">
     <a href=""><img src="https://img.shields.io/badge/javascript-%2320232a.svg?style=for-the-badge&logo=javascript&logoColor=ffdd54" /></a>
     <a href="https://react.dev/"><img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" /></a>
@@ -8,7 +10,7 @@
 
 [![Thumbnail of my YouTube video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)](https://youtu.be/BNQ4EDFuDaw "Watch the Video")
 
-<img src="my-app/assets/reactnative.png" width="200" height="400">
+
 
 -Play at 1.25x speed 
 
