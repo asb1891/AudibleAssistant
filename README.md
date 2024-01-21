@@ -8,11 +8,11 @@
 
 [![Thumbnail of my YouTube video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)](https://youtu.be/BNQ4EDFuDaw "Watch the Video")
 
-
+<img src="my-app/assets/reactnative.png" width="200" height="400">
 
 -Play at 1.25x speed 
 
-<img src="my-app/assets/reactnative.png" width="200" height="400">
+
 
 
 
