@@ -10,17 +10,18 @@
   <tr>
     <!-- First Column for the React Native Image -->
     <td>
-      <img src="my-app/assets/reactnative.png" width="200" alt="React Native Image" style="max-width:200px; height:auto;">
+      <img src="my-app/assets/reactnative.png" width="300" alt="React Native Image" style="max-width:300px; height:auto;">
     </td>
     <td>
       <a href="https://youtu.be/BNQ4EDFuDaw" title="Watch the Video">
-        <img src="https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg" alt="Thumbnail of my YouTube video" style="height:auto; max-width:200px;">
+        <img src="https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg" width="150" alt="Thumbnail of my YouTube video" style="width:150px; height:auto;">
       </a>
       <br>
       Play at 1.25x speed
     </td>
   </tr>
 </table>
+
 
 
 
