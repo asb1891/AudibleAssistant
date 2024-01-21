@@ -88,8 +88,8 @@ function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, s
           )
         )}
         {/* Buttons */}
-        <View style={[styles.buttonsRow, styles.topButtons]}>
-          <Button onPress={handleButtonClick} title="Mic On" color="blue" />
+        <View style={styles.buttonsRow}>
+          <Button onPress={handleButtonClick} title="Mic On" color="blue"/>
           <Button onPress={stopRecording} title="Mic Off" color="red" />
         </View>
 
@@ -165,22 +165,9 @@ const styles = StyleSheet.create({
     maxWidth: screenWidth * 0.4,
     marginTop: 10,
   },
-  topButtons: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 32,
-    marginLeft: 115,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: "lightgrey",
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "white",
-    maxWidth: screenWidth * 0.4,
-    marginTop: 10,
+  offButton: {
+  },
+  onButton: {
   },
 
   messagesContainer: {
@@ -190,6 +177,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginVertical: 10,
     height: 500,
+    borderWidth: 2,
+    borderColor: 'black',
   },
   scrollViewContent: {
     flexGrow: 1,
