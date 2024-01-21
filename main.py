@@ -20,24 +20,30 @@ openai.api_key = OPENAI_AUTH_TOKEN  # Sets the OpenAI API key for authentication
 file_path = os.path.join("response.mp3")  # Defines the file path for saving audio responses
 client = OPENAI_AUTH_TOKEN  # Sets the client variable to the OpenAI authentication token
 allowed_origins = ["http://localhost:3000", "http://192.168.1.92:8081"] 
+
+
+
 #function to hanlde websocket messages from the front end
 async def websocket_handler(websocket, path):
+    #checking to see if the websocket is open and if the origin is allowed
     try:
         origin = websocket.request_headers.get('Origin')
         if origin is not None and origin_allowed(origin):
             app.set_start_websocket(websocket)
+            #looping through the websocket messages
             async for message in websocket:
                 if not message:
                     print("Empty message received")
                     continue 
-
+                #loading message from the front-end
                 try:
                     message_data = json.loads(message)
                     print(f"\nRECEIVED MESSAGE: {message_data}\n")
 
                     command = message_data.get("command")
                     user_input = message_data.get("userInput", "")
-
+                    # checking to see if command is start_recording
+                    #will start script recording if the command is start_recording
                     if command == "start_recording":
                         print("Starting recording with user input:", user_input)
                         app.user_input= user_input
