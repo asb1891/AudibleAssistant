@@ -12,7 +12,7 @@
 
 -Play at 1.25x speed 
 
-<img src="my-app/assets/reactnative.png" width="200" height="100">
+<img src="my-app/assets/reactnative.png" width="200" height="300">
 
 
 
