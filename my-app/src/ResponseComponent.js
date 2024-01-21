@@ -7,12 +7,19 @@ import {
   Image,
   FlatList,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 
-const screenWidth = Dimensions.get('window').width;
-function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, setResponseData }) {
-
+const screenWidth = Dimensions.get("window").width;
+function ResponseComponent({
+  ws,
+  newWs,
+  countdown,
+  setCountdown,
+  responseData,
+  setResponseData,
+}) {
   const [isRecording, setIsRecording] = useState(false);
   const [showMicOffMessage, setShowMicOffMessage] = useState(false);
   const [input, setInput] = useState("");
@@ -65,75 +72,85 @@ function ResponseComponent({ ws, newWs, countdown, setCountdown, responseData, s
   const clearChat = () => {
     setResponseData([]);
   };
-  
 
   return (
-  <View style={styles.container}>
-    <View style={styles.innerContainer}>
-      {/* Buttons and Countdown Container */}
-      <View style={styles.buttonContainer}>
-        {/* Images and Messages */}
-        {showMicOffMessage ? (
-          <Image
-            source={require("my-app/assets/no-microphone.gif")}
-            style={styles.image}
-          />
-        ) : (
-          isRecording &&
-          countdown !== null && (
+    <View style={styles.container}>
+      <View style={styles.innerContainer}>
+        {/* Buttons and Countdown Container */}
+        <View style={styles.buttonContainer}>
+          {/* Images and Messages */}
+          {showMicOffMessage ? (
             <Image
-              source={require("my-app/assets/podcast.gif")}
+              source={require("my-app/assets/no-microphone.gif")}
               style={styles.image}
             />
-          )
-        )}
-        {/* Buttons */}
-        <View style={styles.buttonsRow}>
-          <Button onPress={handleButtonClick} title="Mic On" color="blue"/>
-          <Button onPress={stopRecording} title="Mic Off" color="red" />
-        </View>
+          ) : (
+            isRecording &&
+            countdown !== null && (
+              <Image
+                source={require("my-app/assets/podcast.gif")}
+                style={styles.image}
+              />
+            )
+          )}
+          {/* Buttons */}
+          <View style={styles.buttonsRow}>
+            <TouchableOpacity onPress={handleButtonClick} style={styles.micOnButton}>
+              <Text style={styles.buttonText}>Mic On</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={stopRecording} style={styles.micOffButton}>
+              <Text style={styles.buttonText}>Mic Off</Text>
+              </TouchableOpacity>
+          </View>
 
-        <TextInput
-          style={styles.input}
-          onChangeText={handleChange}
-          value={input}
-          placeholder="Customize OpenAI -> ex: Talk to me like I'm a 3 year old"
+          <TextInput
+            style={styles.input}
+            onChangeText={handleChange}
+            value={input}
+            placeholder="Customize OpenAI -> ex: Talk to me like I'm a 3 year old"
+          />
+        </View>
+        <FlatList
+          data={responseData}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View>
+              <Text style={styles.messageBubbleSent}>{item.prompt}</Text>
+              <Text style={styles.messageBubbleReceived}>{item.response}</Text>
+            </View>
+          )}
+          ListEmptyComponent={() => (
+            <>
+              <Text style={styles.messageBubbleSent}>
+                Welcome to Audible Assistant!
+              </Text>
+              <Text style={styles.messageBubbleReceived}>
+                Turn on the microphone to begin your conversation!
+              </Text>
+              <Text style={styles.messageBubbleSent}>
+                You can customize how you want OpenAI to respond by setting it
+                up above!
+              </Text>
+            </>
+          )}
+          style={styles.messagesContainer}
         />
-      </View>
-      <FlatList
-  data={responseData}
-  keyExtractor={(item, index) => index.toString()}
-  renderItem={({ item }) => (
-    <View>
-      <Text style={styles.messageBubbleSent}>{item.prompt}</Text>
-      <Text style={styles.messageBubbleReceived}>{item.response}</Text>
-    </View>
-  )}
-  ListEmptyComponent={() => (
-    <>
-      <Text style={styles.messageBubbleSent}>Welcome to Audible Assistant!</Text>
-      <Text style={styles.messageBubbleReceived}>Turn on the microphone to begin your conversation!</Text>
-      <Text style={styles.messageBubbleSent}>You can customize how you want OpenAI to respond by setting it up above!</Text>
-    </>
-  )}
-  style={styles.messagesContainer}
-/>
-      <View style={styles.bottomButtons}>
-        <Button onPress={clearChat} title="Clear Chat" color="orange" />
-        {/* Add other buttons */}
+        <View style={styles.bottomButtons}>
+          <Button onPress={clearChat} title="Clear Chat" color="orange" />
+          {/* Add other buttons */}
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
 }
 
-export default ResponseComponent
+export default ResponseComponent;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between", // Changed to flex-start to align children to the top
-    backgroundColor: '#fff', // Assuming a white background
+    backgroundColor: "#fff", // Assuming a white background
   },
   image: {
     width: 50,
@@ -142,11 +159,12 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     marginLeft: 175,
+    marginBottom: 10,
   },
   buttonsRow: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginBottom: 12,
+    marginBottom: 10,
   },
   bottomButtons: {
     alignItems: "center",
@@ -165,26 +183,22 @@ const styles = StyleSheet.create({
     maxWidth: screenWidth * 0.4,
     marginTop: 10,
   },
-  offButton: {
-  },
-  onButton: {
-  },
+  offButton: {},
+  onButton: {},
 
   messagesContainer: {
     paddingHorizontal: 10, // Add horizontal padding
     marginTop: 10,
-    backgroundColor: '#e9967a',
+    backgroundColor: "#b0c4de",
     borderRadius: 4,
     marginVertical: 10,
     height: 500,
     borderWidth: 2,
-    borderColor: 'black',
-  },
-  scrollViewContent: {
-    flexGrow: 1,
+    borderColor: "black",
   },
   messageBubbleSent: {
-    fontFamily: 'Arial Hebrew',
+    fontFamily: "Arial Hebrew",
+    backgroundColor: "#faf0e6",
     padding: 10,
     paddingHorizontal: 15,
     marginBottom: 12,
@@ -192,15 +206,14 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 2,
     lineHeight: 15,
-    borderRadius: 1,
-    color: 'white',
-    backgroundColor: '#0B93F6',
-    alignSelf: 'flex-end',
+    borderRadius: 10,
+    color: "black",
+    alignSelf: "flex-end",
     maxWidth: screenWidth * 0.75,
     marginHorizontal: 10,
   },
   messageBubbleReceived: {
-    fontFamily: 'Arial Hebrew',
+    fontFamily: "Arial Hebrew",
     padding: 10,
     paddingHorizontal: 15,
     marginBottom: 4,
@@ -209,9 +222,9 @@ const styles = StyleSheet.create({
     marginRight: 16,
     lineHeight: 15,
     borderRadius: 4,
-    color: 'white',
-    backgroundColor: '#696969',
-    alignSelf: 'flex-start',
+    color: "white",
+    backgroundColor: "#e9967a",
+    alignSelf: "flex-start",
     maxWidth: screenWidth * 0.75,
     marginHorizontal: 10,
   },
@@ -219,10 +232,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10, // Add horizontal padding
   },
   input: {
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
     borderRadius: 4,
     maxHeight: 75,
     padding: 10,
-  }
   },
-);
+  micOnButton: {
+    backgroundColor: "#20b2aa",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 4, // Optional: if you want rounded corners
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  micOffButton: {
+    backgroundColor: "#ff6347",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 4, // Optional: if you want rounded corners
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16, // Adjust size as needed
+  },
+});
