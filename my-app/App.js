@@ -3,13 +3,15 @@ import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native"
 import ResponseComponent from "./src/ResponseComponent"
 
 function App () {
-  const [ws, setWs] = useState(null)
-  const [newWs, setNewWs] = useState(null)
-  const [shouldReconnect, setShouldReconnect] = useState(true)
-  const [responseData, setResponseData] = useState([])
-  const [countdown, setCountdown] = useState(30) // Adjust as needed
+  const [ws, setWs] = useState(null) //Websocket state
+  const [newWs, setNewWs] = useState(null) //Second websocket state
+  const [shouldReconnect, setShouldReconnect] = useState(true) // Reconnect state
+  const [responseData, setResponseData] = useState([]) // Array of messages from OpenAI to display on the screen
+  const [countdown, setCountdown] = useState(30) // Timer countdown state
   const [userInput, setUserInput] = useState('')
 
+  //Connecting to the websocket server
+  
   const connectWebSocket = useCallback(() => {
     if (!shouldReconnect) return
 
@@ -19,7 +21,7 @@ function App () {
       console.log("WebSocket Connected");
       newWsInstance.send("hello from the client side")
     }
-
+    // creating an array of messages from OpenAI to display on the screen
     newWsInstance.onmessage = (event) => {
       console.log("Message from server:", event.data)
       const [prompt, response] = event.data.split("\n")// Handling incoming messages
@@ -45,6 +47,7 @@ function App () {
     };
   }, [connectWebSocket, ws])
 
+  //Connecting to the second websocket server, which handles Stop Recording functionality
   const connectSecondWebSocket = useCallback(() => {
     if (!shouldReconnect) return
 
