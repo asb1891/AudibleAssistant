@@ -20,10 +20,11 @@ function ResponseComponent({
   responseData,
   setResponseData,
 }) {
-  const [isRecording, setIsRecording] = useState(false);
-  const [showMicOffMessage, setShowMicOffMessage] = useState(false);
-  const [input, setInput] = useState("");
+  const [isRecording, setIsRecording] = useState(false); // State for recording state
+  const [showMicOffMessage, setShowMicOffMessage] = useState(false); // State for the microphone icon
+  const [input, setInput] = useState(""); // State for the user input for OpenAI configuration
 
+  // Hook to deal with timer and microphone icon
   useEffect(() => {
     let timer;
     if (isRecording && countdown > 0) {
@@ -40,13 +41,13 @@ function ResponseComponent({
     setInput(newValue);
   };
 
+  // Function to send "start_recording" message to the server
   const startRecording = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
       const message = JSON.stringify({
         command: "start_recording",
         userInput: input,
       });
-
       ws.send(message);
       setIsRecording(true);
       setShowMicOffMessage(false);
@@ -54,7 +55,7 @@ function ResponseComponent({
       console.log("WebSocket is not connected.");
     }
   };
-
+  // Function to send "stop_recording" message to the server
   const stopRecording = () => {
     if (newWs && newWs.readyState === WebSocket.OPEN) {
       newWs.send("stop_recording");
@@ -64,11 +65,14 @@ function ResponseComponent({
     setIsRecording(false);
     setShowMicOffMessage(true);
   };
-
+  // When the button is clicked, timer and recording starts
   const handleButtonClick = () => {
     setCountdown(30); // Set your desired countdown duration here
     startRecording();
   };
+  //function to clear the chat from the screen
+  //clears the array of messages from the screen
+  
   const clearChat = () => {
     setResponseData([]);
   };
