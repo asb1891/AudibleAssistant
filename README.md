@@ -6,15 +6,21 @@
     <a href=""><img src="https://img.shields.io/badge/flask-%2320232a?style=for-the-badge&logo=flask&logoColor=00000" /></a>
 </p>
 
-<img src="my-app/assets/reactnative.png" width="200" height="400">
-
-
-
-[![Thumbnail of my YouTube video](https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg)](https://youtu.be/BNQ4EDFuDaw "Watch the Video")
-
-
-
--Play at 1.25x speed 
+<table>
+  <tr>
+    <!-- First Column for the React Native Image -->
+    <td>
+      <img src="my-app/assets/reactnative.png" width="200" height="400" alt="React Native Image">
+    </td>
+    <td>
+      <a href="https://youtu.be/BNQ4EDFuDaw" title="Watch the Video">
+        <img src="https://img.youtube.com/vi/BNQ4EDFuDaw/maxresdefault.jpg" alt="Thumbnail of my YouTube video" style="width:auto; max-height:400px;">
+      </a>
+      <br>
+      Play at 1.25x speed
+    </td>
+  </tr>
+</table>
 
 
 
