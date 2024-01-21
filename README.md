@@ -12,7 +12,8 @@
 
 -Play at 1.25x speed 
 
-![React Native](my-app/assets/reactnative.png)
+<img src="my-app/assets/reactnative.png" width="200" height="100">
+
 
 
 Audible Assistant: 
