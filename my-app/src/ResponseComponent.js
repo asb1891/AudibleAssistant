@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   messageBubbleSent: {
-    fontFamily: "Arial Hebrew",
+    fontFamily: "Arial-BoldMT",
     backgroundColor: "#faf0e6",
     padding: 10,
     paddingHorizontal: 15,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   messageBubbleReceived: {
-    fontFamily: "Arial Hebrew",
+    fontFamily: "Arial-BoldMT",
     padding: 10,
     paddingHorizontal: 15,
     marginBottom: 4,
