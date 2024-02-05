@@ -17,7 +17,7 @@ function App() {
   const [countdown, setCountdown] = useState(30); // Adjust as needed
   const [userInput, setUserInput] = useState("");
 
-
+// Function to connect Websocket to the server 
   const connectWebSocket = useCallback(() => {
     if (!shouldReconnect) return;
 
@@ -53,6 +53,7 @@ function App() {
     };
   }, [connectWebSocket, ws]);
 
+  // Function to connect Websocket to the second server
   const connectSecondWebSocket = useCallback(() => {
     if (!shouldReconnect) return;
 

@@ -7,6 +7,9 @@ function ResponseComponent({ ws, setWs, newWs, setNewWs, countdown, setCountdown
   const [showMicOffMessage, setShowMicOffMessage] = useState(false); // Set to true when mic is off
   const [input, setInput] = useState(""); // State for the user's input
 
+
+  // Function to show/hide the mic off message
+  // Sets timeout State to 30 seconds
   useEffect(() => {
     let timer;
     if (isRecording && countdown > 0) {
